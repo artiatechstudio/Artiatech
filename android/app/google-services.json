@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "770281294675",
+    "firebase_url": "https://carengocount-default-rtdb.firebaseio.com",
+    "project_id": "carengocount",
+    "storage_bucket": "carengocount.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770281294675:android:cbe6e3761878fd5d5cefa6",
+        "android_client_info": {
+          "package_name": "ly.com.artiatechstudio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6u6pxUGlx9n8ksKFoJ_ycC_BmBjjKHaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
