@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'register_screen.dart';
 import 'forgot_password_screen.dart';
-import '../../main.dart'; // import to navigate to MainScreen
+import '../main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,18 +13,68 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
+  final _identifierController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isLoading = false;
+  bool _obscurePassword = true;
+  bool _showResendButton = false;
   String _errorMessage = '';
 
   Future<void> _login() async {
-    setState(() => _isLoading = true);
+    setState(() {
+      _errorMessage = '';
+      _showResendButton = false;
+      _isLoading = true;
+    });
+
+    final input = _identifierController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (input.isEmpty || password.isEmpty) {
+      setState(() {
+        _errorMessage = 'يرجى إدخال البريد/اسم المستخدم وكلمة المرور';
+        _isLoading = false;
+      });
+      return;
+    }
+
+    String email = input;
+
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+      // Check if input is username (not containing @)
+      if (!input.contains('@')) {
+        final QuerySnapshot result = await FirebaseFirestore.instance
+            .collection('users')
+            .where('username', isEqualTo: input)
+            .limit(1)
+            .get();
+
+        if (result.docs.isEmpty) {
+          setState(() {
+            _errorMessage = 'اسم المستخدم غير موجود.';
+            _isLoading = false;
+          });
+          return;
+        }
+        email = result.docs.first.get('email');
+      }
+
+      // Login with Firebase
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
       );
+
+      // Check Verification
+      if (!userCredential.user!.emailVerified) {
+        await FirebaseAuth.instance.signOut();
+        setState(() {
+          _errorMessage = 'حسابك يحتاج للتفعيل. يرجى مراجعة رابط التفعيل في بريدك الإلكتروني.';
+          _showResendButton = true;
+        });
+        return;
+      }
+
       if (mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (_) => const MainScreen()),
@@ -32,75 +82,127 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
-        _errorMessage = e.message ?? 'حدث خطأ في تسجيل الدخول.';
+        _errorMessage = e.message ?? 'خطأ في الربط مع الحساب.';
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'حدث خطأ غير متوقع، يرجى المحاولة لاحقاً.';
       });
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
   }
 
+  Future<void> _resendVerificationEmail() async {
+    setState(() => _isLoading = true);
+    try {
+      final input = _identifierController.text.trim();
+      final password = _passwordController.text.trim();
+      
+      // We must sign in temporarily to send the email
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: input.contains('@') ? input : (await _getEmailFromUsername(input)) ?? '',
+        password: password,
+      );
+      
+      await userCredential.user!.sendEmailVerification();
+      await FirebaseAuth.instance.signOut();
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('تم إرسال رابط التفعيل الجديد لبريدك.')));
+        setState(() => _showResendButton = false);
+      }
+    } catch (e) {
+       if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('فشل الإرسال: $e')));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<String?> _getEmailFromUsername(String username) async {
+    final QuerySnapshot result = await FirebaseFirestore.instance.collection('users').where('username', isEqualTo: username).limit(1).get();
+    return result.docs.isEmpty ? null : result.docs.first.get('email');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('تسجيل الدخول')),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      appBar: AppBar(title: const Text('دخول أرتياتك')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const SizedBox(height: 40),
+            const Icon(Icons.shield_outlined, size: 80, color: Colors.blueAccent),
+            const SizedBox(height: 20),
             if (_errorMessage.isNotEmpty)
-              Text(_errorMessage, style: const TextStyle(color: Colors.red)),
-            const SizedBox(height: 10),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'البريد الإلكتروني',
-                border: OutlineInputBorder(),
+              Container(
+                padding: const EdgeInsets.all(10),
+                width: double.infinity,
+                decoration: BoxDecoration(color: Colors.redAccent.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
+                child: Column(
+                  children: [
+                    Text(_errorMessage, textAlign: TextAlign.center, style: const TextStyle(color: Colors.redAccent, fontSize: 13)),
+                    if (_showResendButton)
+                      TextButton(
+                        onPressed: _resendVerificationEmail,
+                        child: const Text('ألم يصلك الرابط بعد؟ أعد الإرسال', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueAccent)),
+                      ),
+                  ],
+                ),
               ),
-              keyboardType: TextInputType.emailAddress,
+            const SizedBox(height: 20),
+            TextField(
+              controller: _identifierController,
+              decoration: const InputDecoration(
+                labelText: 'اسم المستخدم أو البريد',
+                border: OutlineInputBorder(),
+                prefixIcon: Icon(Icons.person_outline),
+              ),
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
+              obscureText: _obscurePassword,
+              decoration: InputDecoration(
                 labelText: 'كلمة المرور',
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.lock_outline),
+                suffixIcon: IconButton(
+                  icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                ),
               ),
-              obscureText: true,
             ),
-            const SizedBox(height: 10),
             Align(
               alignment: Alignment.centerLeft,
               child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const ForgotPasswordScreen()),
-                  );
-                },
-                child: const Text('نسيت كلمة المرور؟'),
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPasswordScreen())),
+                child: const Text('هل نسيت كلمة المرور؟'),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             _isLoading
                 ? const CircularProgressIndicator()
                 : ElevatedButton(
                     onPressed: _login,
                     style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
+                      minimumSize: const Size(double.infinity, 55),
                       backgroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     ),
-                    child: const Text('دخول', style: TextStyle(color: Colors.black, fontSize: 18)),
+                    child: const Text('تسجيل الدخول', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
                   ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
-                );
-              },
-              child: const Text('ليس لديك حساب؟ إنشاء حساب جديد'),
+            const SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('ليس لديك حساب بعد؟'),
+                TextButton(
+                  onPressed: () => Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const RegisterScreen())),
+                  child: const Text('أنشئ حسابك الآن'),
+                ),
+              ],
             )
           ],
         ),

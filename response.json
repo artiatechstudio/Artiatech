@@ -1,0 +1,161 @@
+﻿{
+    "version":  "1.0",
+    "encoding":  "UTF-8",
+    "feed":  {
+                 "xmlns":  "http://www.w3.org/2005/Atom",
+                 "xmlns$openSearch":  "http://a9.com/-/spec/opensearchrss/1.0/",
+                 "xmlns$blogger":  "http://schemas.google.com/blogger/2008",
+                 "xmlns$georss":  "http://www.georss.org/georss",
+                 "xmlns$gd":  "http://schemas.google.com/g/2005",
+                 "xmlns$thr":  "http://purl.org/syndication/thread/1.0",
+                 "id":  {
+                            "$t":  "tag:blogger.com,1999:blog-8638460023147036314"
+                        },
+                 "updated":  {
+                                 "$t":  "2026-03-31T19:40:55.343+02:00"
+                             },
+                 "category":  [
+                                  {
+                                      "term":  "تقنية"
+                                  },
+                                  {
+                                      "term":  "ألعاب"
+                                  },
+                                  {
+                                      "term":  "مقالات"
+                                  },
+                                  {
+                                      "term":  "برامج"
+                                  },
+                                  {
+                                      "term":  "إسلاميات"
+                                  },
+                                  {
+                                      "term":  "علوم"
+                                  },
+                                  {
+                                      "term":  "فنون"
+                                  },
+                                  {
+                                      "term":  "إعلانات"
+                                  },
+                                  {
+                                      "term":  "تكنولوجيا"
+                                  },
+                                  {
+                                      "term":  "دراما"
+                                  }
+                              ],
+                 "title":  {
+                               "type":  "text",
+                               "$t":  "أستوديو ارتياتك | Artiatech Studio"
+                           },
+                 "subtitle":  {
+                                  "type":  "html",
+                                  "$t":  "أتقن فنك - Where creativity meets technology. "
+                              },
+                 "link":  [
+                              {
+                                  "rel":  "http://schemas.google.com/g/2005#feed",
+                                  "type":  "application/atom+xml",
+                                  "href":  "https://www.artiatechstudio.com.ly/feeds/posts/default"
+                              },
+                              {
+                                  "rel":  "self",
+                                  "type":  "application/atom+xml",
+                                  "href":  "https://www.blogger.com/feeds/8638460023147036314/posts/default?alt=json\u0026max-results=1"
+                              },
+                              {
+                                  "rel":  "alternate",
+                                  "type":  "text/html",
+                                  "href":  "https://www.artiatechstudio.com.ly/"
+                              },
+                              {
+                                  "rel":  "hub",
+                                  "href":  "http://pubsubhubbub.appspot.com/"
+                              },
+                              {
+                                  "rel":  "next",
+                                  "type":  "application/atom+xml",
+                                  "href":  "https://www.blogger.com/feeds/8638460023147036314/posts/default?alt=json\u0026start-index=2\u0026max-results=1"
+                              }
+                          ],
+                 "author":  [
+                                {
+                                    "name":  {
+                                                 "$t":  "أستوديو أرتياتك | Artiatech Studio"
+                                             },
+                                    "uri":  {
+                                                "$t":  "http://www.blogger.com/profile/06675040183680161302"
+                                            },
+                                    "email":  {
+                                                  "$t":  "noreply@blogger.com"
+                                              },
+                                    "gd$image":  {
+                                                     "rel":  "http://schemas.google.com/g/2005#thumbnail",
+                                                     "width":  "16",
+                                                     "height":  "16",
+                                                     "src":  "https://img1.blogblog.com/img/b16-rounded.gif"
+                                                 }
+                                }
+                            ],
+                 "generator":  {
+                                   "version":  "7.00",
+                                   "uri":  "http://www.blogger.com",
+                                   "$t":  "Blogger"
+                               },
+                 "openSearch$totalResults":  {
+                                                 "$t":  "30"
+                                             },
+                 "openSearch$startIndex":  {
+                                               "$t":  "1"
+                                           },
+                 "openSearch$itemsPerPage":  {
+                                                 "$t":  "1"
+                                             },
+                 "entry":  [
+                               {
+                                   "id":  {
+                                              "$t":  "tag:blogger.com,1999:blog-8638460023147036314.post-4777210340969821277"
+                                          },
+                                   "published":  {
+                                                     "$t":  "2026-03-08T09:42:00.015+02:00"
+                                                 },
+                                   "updated":  {
+                                                   "$t":  "2026-03-15T15:13:52.960+02:00"
+                                               },
+                                   "category":  [
+                                                    "@{scheme=http://www.blogger.com/atom/ns#; term=برامج}",
+                                                    "@{scheme=http://www.blogger.com/atom/ns#; term=تقنية}"
+                                                ],
+                                   "title":  {
+                                                 "type":  "text",
+                                                 "$t":  "Careingo | تواصل، تحدى، تطور"
+                                             },
+                                   "content":  {
+                                                   "type":  "html",
+                                                   "$t":  "\u003chtml\u003e\n\u003chead\u003e\n\u003cmeta charset=\"UTF-8\"\u003e\n\u003ctitle\u003eCareingo | تواصل تحدى تطور\u003c/title\u003e\n\u003c/head\u003e\n\u003cstyle\u003e\n\nbody{\n  \nfont-family: Arial;\nbackground:#f4f7fb;\nmargin:0;\npadding:0;\n}\n\n.container{\nmax-width:1200px;\nmargin:auto;\nbackground:white;\npadding:40px;\nbox-shadow:0 0 20px rgba(0,0,0,0.08);\n}\n\n.header{\ntext-align:center;\nmargin-bottom:40px;\n}\n\n.logo{\nfont-size:36px;\nfont-weight:bold;\ncolor:#2c3e50;\n}\n\n.slogan{\nfont-size:18px;\ncolor:#777;\nmargin-top:8px;\n}\n\n.section-title{\nmargin-top:40px;\nfont-size:26px;\ncolor:#2c3e50;\n}\n\np{\nfont-size:18px;\nline-height:1.9;\ncolor:#444;\n}\n\n.feature{\nmargin-top:20px;\nline-height:1.8;\nfont-size:18px;\n}\n\n.try-btn{\nmargin-top:40px;\nbackground:#27ae60;\ncolor:white;\npadding:18px 40px;\nfont-size:22px;\nborder:none;\nborder-radius:10px;\ncursor:pointer;\n}\n\n.try-btn:hover{\nbackground:#1e8449;\n}\n\n.counter{\nmargin-top:40px;\ntext-align:center;\n}\n\n.counter-number{\nfont-size:45px;\nfont-weight:bold;\ncolor:#2c3e50;\n}\n\n  /* حاوية الصور الرئيسية */\n  .custom-image-gallery {\n    display: flex;          /* صف العناصر بجانب بعضها */\n    overflow-x: auto;       /* تفعيل التمرير الأفقي */\n    white-space: nowrap;    /* منع التفاف الصور لسطر جديد */\n    gap: 12px;              /* مسافة بين الصور */\n    padding: 15px;\n    background: #f9f9f9;    /* لون خلفية خفيف */\n    border-radius: 10px;\n      /* تنحيف شريط التمرير للمتصفحات الحديثة */\n  }\n\n  /* تنسيق كل رابط/صورة */\n  .custom-image-gallery .separator {\n    flex: 0 0 auto;         /* منع انكماش الصور */\n    margin: 0 !important;   /* إلغاء الهوامش الافتراضية */\n  }\n\n  .custom-image-gallery img {\n    height: 350px;          /* حجم الصور (صغيرة نسبياً) */\n    width: auto;            /* الحفاظ على التناسب */\n    border-radius: 5px;     /* زوايا منحنية */\n    transition: transform 0.3s; /* تأثير عند مرور الماوس */\n    display: block;\n  }\n\n  .custom-image-gallery img:hover {\n    transform: scale(1.05); /* تكبير بسيط عند التأشير */\n  }\n  .install-top{\nposition:fixed;\ntop:0;\nwidth:100%;\nbackground:#27ae60;\ncolor:white;\ntext-align:center;\npadding:15px;\nfont-size:20px;\ncursor:pointer;\nz-index:9999;\n}\n\n.apk-btn{\nmargin-top:20px;\nbackground:#2980b9;\ncolor:white;\npadding:18px 40px;\nfont-size:22px;\nborder:none;\nborder-radius:10px;\ncursor:pointer;\n}\n\n.apk-btn:hover{\nbackground:#1f6694;\n  }\n\u003c/style\u003e\n\n\n\n\n\n\u003cbody\u003e\n\n\u003cdiv class=\"separator\" style=\"clear: both; text-align: center;\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEi4KGSJx8kHwsN7bj8_UVsPiZ4QSY6zPZIEwg68qSlFWeHgMQKMp34hyn2jSz01v63k1j0j9k4KpIWIChbFJcGz7YZ8PUVBZSlB_ehXHfAJRaoYs_-gJ0MCW8BNasdwzD5-lJZhkV9dMrLfVwR0KGmmxfMZa68AnrfxK6_wNJ_kA21sBLTkxZJS5Iea8es\" style=\"margin-left: 1em; margin-right: 1em;\"\u003e\u003cimg alt=\"\" data-original-height=\"207\" data-original-width=\"216\" height=\"240\" src=\"https://blogger.googleusercontent.com/img/a/AVvXsEi4KGSJx8kHwsN7bj8_UVsPiZ4QSY6zPZIEwg68qSlFWeHgMQKMp34hyn2jSz01v63k1j0j9k4KpIWIChbFJcGz7YZ8PUVBZSlB_ehXHfAJRaoYs_-gJ0MCW8BNasdwzD5-lJZhkV9dMrLfVwR0KGmmxfMZa68AnrfxK6_wNJ_kA21sBLTkxZJS5Iea8es\" width=\"250\" /\u003e\u003c/a\u003e\u003c/div\u003e\u003cbr /\u003e\n\u003cdiv class=\"container\"\u003e\n\n\u003cdiv class=\"header\"\u003e\n\u003cdiv class=\"logo\"\u003eCareingo\u003c/div\u003e\n\u003cdiv class=\"slogan\"\u003eتواصل • تحدى • تطور\u003c/div\u003e\n\u003c/div\u003e\n\u003cdiv class=\"install-top\" onclick=\"scrollToAPK()\"\u003e\n📲 ثبت Careingo الآن\n  \u003c/div\u003e\n\u003cp\u003e\n\nكارينجو هو منصة تفاعلية حديثة تهدف إلى تحويل رحلة تطوير الذات من مجرد أفكار\nنظرية إلى تجربة عملية يومية مليئة بالتحديات والتحفيز والتفاعل الاجتماعي.\n\nيعتمد التطبيق على فلسفة التحسن التدريجي (Kaizen)، والتي تقوم على فكرة أن\nالتغييرات الصغيرة المتكررة يمكن أن تصنع تحولات كبيرة في حياة الإنسان\nعلى المدى الطويل.\n\n  \n  \nمن خلال نظام متكامل من التحديات اليومية والإنجازات والمنافسة\nوالمجتمع التفاعلي، يساعدك كارينجو على بناء عادات إيجابية\nتدفعك تدريجياً نحو أفضل نسخة من نفسك.\n\n\u003c/p\u003e\n\n\u003cdiv class=\"section-title\"\u003e🚀 نظام التحديات اليومية\u003c/div\u003e\n\n\u003cp\u003e\n\nيقدم كارينجو تجربة فريدة تعتمد على 120 مرحلة متدرجة موزعة على أربعة مسارات\nأساسية في حياة الإنسان:\n\nاللياقة البدنية، التغذية الصحية، السلوك النفسي، والتعلم المستمر.\n\nكل مرحلة تمثل تحدياً عملياً بسيطاً يمكنك تنفيذه في حياتك اليومية،\nلكن قوة النظام تكمن في الاستمرارية.\n\nلمنع المستخدم من محاولة إنهاء جميع المهام بسرعة أو ما يعرف بـ \"حرق المهام\"،\nيحتوي التطبيق على مؤقت ذكي يمنع فتح أكثر من مرحلة واحدة في نفس المسار\nخلال اليوم الواحد.\n\nبعد إكمال التحدي يبدأ مؤقت العد التنازلي حتى منتصف الليل،\nوعندها فقط يتم فتح المرحلة التالية.\n\nهذا النظام يضمن أن عملية التغيير تتم بشكل تدريجي ومستدام،\nمما يجعل العادات الجديدة أكثر ثباتاً في حياتك.\n\n\u003c/p\u003e\n\n\u003cdiv class=\"section-title\"\u003e🧠 نظام النقاط والتحفيز الذكي\u003c/div\u003e\n\n\u003cp\u003e\n\nكل إنجاز تقوم به داخل التطبيق يتم مكافأتك عليه بنظام نقاط\nمصمم بعناية ليحفزك على الاستمرار.\n\nتحصل على نقاط أساسية عند إكمال أي تحدٍ،\nلكن هناك أيضاً مكافآت إضافية تعتمد على توقيت الإنجاز.\n\nكلما أنجزت المهام في وقت مبكر من اليوم،\nحصلت على نقاط إضافية فيما يعرف بنظام \"المبادر المبكر\".\n\nكما يمكنك إنشاء مهام إضافية خاصة بك داخل التطبيق،\nمثل قراءة كتاب أو تعلم مهارة جديدة،\nوعند إكمال هذه المهام تحصل أيضاً على نقاط إضافية.\n\nبهذا يصبح التطبيق مرناً وقادراً على التكيف مع أهدافك الشخصية.\n\n\u003c/p\u003e\n\n\u003cdiv class=\"section-title\"\u003e🏆 لوحة المتصدرين وجدار العار\u003c/div\u003e\n\n\u003cp\u003e\n\nكارينجو ليس مجرد تطبيق فردي، بل تجربة تنافسية ممتعة.\n\nتسمح لوحة المتصدرين بمقارنة تقدمك مع بقية المستخدمين\nبناءً على مستوى الحماسة والنقاط التي حققتها.\n\nكلما حافظت على التزامك اليومي وواصلت تنفيذ التحديات،\nارتفع ترتيبك بين المستخدمين.\n\nلكن التحدي لا يقتصر على النجاح فقط.\n\nهناك أيضاً ما يسمى \"جدار العار\"،\nوهو قسم يظهر فيه المستخدمون الذين كسروا سلسلة الحماسة\nوتوقفوا عن تنفيذ التحديات اليومية.\n\nهذا العنصر يضيف مستوى إضافياً من التحدي والتحفيز\nويشجع المستخدمين على عدم الاستسلام.\n\n\u003c/p\u003e\n\n\u003cdiv class=\"section-title\"\u003e💬 المجتمع التفاعلي\u003c/div\u003e\n\n\u003cp\u003e\n\nيوفر كارينجو مجتمعاً اجتماعياً كاملاً داخل التطبيق.\n\nيمكنك التواصل مع المستخدمين الآخرين بعدة طرق،\nمن بينها الدردشة الخاصة التي تسمح لك بإرسال الرسائل\nوالتواصل المباشر مع أي شخص داخل المنصة.\n\nكما يحتوي التطبيق على جدار اجتماعي عام\nيمكن للمستخدمين نشر منشورات عليه\nحول تقدمهم أو تجاربهم أو أفكارهم.\n\nيمكن لبقية المستخدمين التفاعل مع هذه المنشورات\nعن طريق التعليق أو الإعجاب باستخدام زر \"Like\".\n\nهذا المجتمع التفاعلي يجعل رحلة تطوير الذات\nأكثر متعة ودعماً وتحفيزاً.\n\n\u003c/p\u003e\n\n\u003cdiv class=\"section-title\"\u003e🏅 نظام الأوسمة والإنجازات\u003c/div\u003e\n\n\u003cp\u003e\n\nيكافئ كارينجو المستخدمين بنظام أوسمة متكامل\nيحصلون عليه عند تحقيق إنجازات مختلفة.\n\nيمكنك الحصول على الأوسمة عند إكمال عدد معين من التحديات،\nأو الحفاظ على سلسلة حماسة طويلة،\nأو تحقيق إنجازات خاصة داخل المسارات المختلفة.\n\nيتم عرض هذه الأوسمة في ملفك الشخصي العام\nليتمكن المستخدمون الآخرون من رؤية إنجازاتك.\n\nوبذلك يصبح ملفك الشخصي انعكاساً حقيقياً\nلمدى التزامك وتقدمك داخل المنصة.\n\n\u003c/p\u003e\n\n\u003cdiv class=\"section-title\"\u003e👑 وضع البريميوم\u003c/div\u003e\n\n\u003cp\u003e\n\nيقدم كارينجو تجربة قوية في النسخة المجانية،\nلكن للمستخدمين الأكثر جدية في تطوير أنفسهم\nيوجد وضع البريميوم الذي يفتح ميزات إضافية.\n\nمن بين هذه الميزات ميزة تجميد الحماسة\nالتي تسمح لك بالحفاظ على سلسلة تقدمك\nفي حال واجهتك ظروف طارئة في أحد الأيام.\n\nكما يوفر البريميوم أدوات إضافية\nتجعل تجربة التحفيز داخل التطبيق أكثر قوة ومرونة.\n\n\u003c/p\u003e\n  \u003cdiv class=\"section-title\"\u003e⚔️ نظام المباريات والمحاكمة المجتمعية\u003c/div\u003e\n\n\u003cp\u003e\nيقدم كارينجو ميزة المباريات بين لاعبين اثنين حيث يمكن للمستخدمين\nالتنافس في تنفيذ التحديات بشكل مباشر.\n\u003c/p\u003e\n\n\u003cp\u003e\nبعد انتهاء المباراة يتم عرض النتائج على المجتمع\nليقوم المستخدمون بدور المحكمين عبر نظام محاكمة مجتمعية\nيحدد الفائز بشكل عادل.\n  \u003c/p\u003e\n\n\u003cdiv style=\"text-align: center;\"\u003e\n\n  \u003cdiv id=\"apkSection\" style=\"margin-top: 20px; text-align: center;\"\u003e\n\u003cbutton class=\"apk-btn\" onclick=\"downloadAPK()\"\u003e\n⬇️ تحميل نسخة APK\n\u003c/button\u003e\n  \u003c/div\u003e\n  \n\u003cbutton class=\"try-btn\" onclick=\"openApp()\"\u003e\n🚀 جرب التطبيق الآن\n\u003c/button\u003e\n\n\u003c/div\u003e\n\n\u003cdiv class=\"counter\"\u003e\n\n\u003cp\u003eعدد المستخدمين الذين جربوا التطبيق\u003c/p\u003e\n\n\u003cdiv class=\"counter-number\" id=\"downloadCount\"\u003e0\u003c/div\u003e\n\n\u003c/div\u003e\n\n\u003c/div\u003e\n\n  \u003cdiv class=\"custom-image-gallery\"\u003e\n  \n  \u003c!-- صورة 2 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEga0tLO1QiUCdQxl7H35oBhSPEVz1-VjU31ASpkgHZLJt0iD-yFvzEHm-yohcDyVyaGal1iATA6mPjx9Rb9-V-HYouXPG_O4l5D7M7XmOUFqsyN5KfZZWs57qFACXRbmAAvV_UKha1lO8Jkz0de6t3JeC5O8nj1l41r8Ad5M4bGtXZ3dYrA_er606ttV4k\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEga0tLO1QiUCdQxl7H35oBhSPEVz1-VjU31ASpkgHZLJt0iD-yFvzEHm-yohcDyVyaGal1iATA6mPjx9Rb9-V-HYouXPG_O4l5D7M7XmOUFqsyN5KfZZWs57qFACXRbmAAvV_UKha1lO8Jkz0de6t3JeC5O8nj1l41r8Ad5M4bGtXZ3dYrA_er606ttV4k\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 3 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEix6MN7g8YeJs-uYrxi3MC_9dnzhBLoEoKWxWcF3Ws7pOFc9s42vnE9k3ZqSmeLb4Xm_ZczkkwYpSljcQl6OeDFJlVvo3VLySkbbEjaz6OTv9a429iTFtJYICLLo6JQCUYdBrrUIME7HoRk5zhnWy_TOS_GKCrUKLkOpQ8eSKXI8Md2hpl2BcxjDJDhhfo\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEix6MN7g8YeJs-uYrxi3MC_9dnzhBLoEoKWxWcF3Ws7pOFc9s42vnE9k3ZqSmeLb4Xm_ZczkkwYpSljcQl6OeDFJlVvo3VLySkbbEjaz6OTv9a429iTFtJYICLLo6JQCUYdBrrUIME7HoRk5zhnWy_TOS_GKCrUKLkOpQ8eSKXI8Md2hpl2BcxjDJDhhfo\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 4 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEhiAGJz6X_KwSM2HVv4hOjSjUfXU53wFxytvgy7pB6heYzLfqi7FFzbFurTpzA1BKIbkOx0AtH4wVh_DKxj-dnLK-CYUwGKiR9Wl1D43ayi8de-uNNvvZ8g4W_vvn3k26LaKp6cs3HclLNHFkNfNTuFd5WCdI4u6D6Eq9rn70QOfZy_8DW70dJDyjNRRLY\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEhiAGJz6X_KwSM2HVv4hOjSjUfXU53wFxytvgy7pB6heYzLfqi7FFzbFurTpzA1BKIbkOx0AtH4wVh_DKxj-dnLK-CYUwGKiR9Wl1D43ayi8de-uNNvvZ8g4W_vvn3k26LaKp6cs3HclLNHFkNfNTuFd5WCdI4u6D6Eq9rn70QOfZy_8DW70dJDyjNRRLY\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 5 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEjCS4wqqED3DUifh6vNDr4-cmNhwkBVvzdPMsLQgioT8-0R6RTcqkGbUHWWZL2z1s-WBycUQgN2cdWsRQPXTi5cGIjs6Khox5ZeNe9XmsPhThCnhHZ0Z_DfkIXn7AFDv9DfJOL9aITyMQZkcbQaezLrN2yobOIFbQZANY745KLnQLSiNlX5MFIXV1ItvFU\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEjCS4wqqED3DUifh6vNDr4-cmNhwkBVvzdPMsLQgioT8-0R6RTcqkGbUHWWZL2z1s-WBycUQgN2cdWsRQPXTi5cGIjs6Khox5ZeNe9XmsPhThCnhHZ0Z_DfkIXn7AFDv9DfJOL9aITyMQZkcbQaezLrN2yobOIFbQZANY745KLnQLSiNlX5MFIXV1ItvFU\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 6 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEjqkVYrdmX4xfVRCWvmEod3qiUzeVvHZyeUcOofglBIUDwKTEgcJLv43cF2GHXg3MWfxsdMPK3f1PpbUcbevrJcazPMk_r93nziGeaEE2QzHstbUc5y1gy6HvizdnEfWcuZEVrr3DZGHfDp3tA3HrXetgJeIahpbvdKqurm-bcU5rEdukN3oypTD8QhRH8\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEjqkVYrdmX4xfVRCWvmEod3qiUzeVvHZyeUcOofglBIUDwKTEgcJLv43cF2GHXg3MWfxsdMPK3f1PpbUcbevrJcazPMk_r93nziGeaEE2QzHstbUc5y1gy6HvizdnEfWcuZEVrr3DZGHfDp3tA3HrXetgJeIahpbvdKqurm-bcU5rEdukN3oypTD8QhRH8\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 7 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEichWyWWJE-VDtANGl1pfG3gNjZ2oDbodQ9Q-4kGi1NXQvSGy6tyqtHd1x3zfSh0xOXYiWAfRhAf8XOaprI4jzz8HR9w4qkyZzexeCI7-IUSylhbXU5F_umxTIK6cNwR6OvqSeOOrUPqgqby21MJUw_EHSdKtkL6DbPDUbHz8fWwTfqDtyM0THeMz_xdGE\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEichWyWWJE-VDtANGl1pfG3gNjZ2oDbodQ9Q-4kGi1NXQvSGy6tyqtHd1x3zfSh0xOXYiWAfRhAf8XOaprI4jzz8HR9w4qkyZzexeCI7-IUSylhbXU5F_umxTIK6cNwR6OvqSeOOrUPqgqby21MJUw_EHSdKtkL6DbPDUbHz8fWwTfqDtyM0THeMz_xdGE\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 8 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEiqLgL2faabuz-ECcCLcwt5bUaOMlgmTUx9F58QubVS7pGaDfwZ5GKBMwycmw5AHYgKL8QaGYxawXyZfEy4MdjXarwupde4ibIBwG0ym2brmx4X3c_fXWCWHKa-QYoSc8T7EfMpsmOcjFCjMEZdGyX_9rRR83aWUhIaLmtq0Be71Fdo0FKwSzscw9fVoDc\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEiqLgL2faabuz-ECcCLcwt5bUaOMlgmTUx9F58QubVS7pGaDfwZ5GKBMwycmw5AHYgKL8QaGYxawXyZfEy4MdjXarwupde4ibIBwG0ym2brmx4X3c_fXWCWHKa-QYoSc8T7EfMpsmOcjFCjMEZdGyX_9rRR83aWUhIaLmtq0Be71Fdo0FKwSzscw9fVoDc\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 9 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEiDJQy15G7WfRt8ACxIB9T6HR6coGlOY9DNokDsaGtbBAYon5mv0v6RaFZxqyN6SD_t1aPIe1BLJCVmBiwWuBBOEAFqgYM7N8LCjkF7OeLKbvl1RQS5iMrx0ezrPaK-d30JJ_rN0f7lW6vvnC4JjIfZzk7Nh4iWDplb21VxnNcB8Jht4bEWoYRWiTj1pHA\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEiDJQy15G7WfRt8ACxIB9T6HR6coGlOY9DNokDsaGtbBAYon5mv0v6RaFZxqyN6SD_t1aPIe1BLJCVmBiwWuBBOEAFqgYM7N8LCjkF7OeLKbvl1RQS5iMrx0ezrPaK-d30JJ_rN0f7lW6vvnC4JjIfZzk7Nh4iWDplb21VxnNcB8Jht4bEWoYRWiTj1pHA\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 10 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEiTzwrWOU_vqjbAZYRUouQGdcCHy-OBAzkY8KUs-P5u1jVxfud85JaDZx8lzwlXH2Nt7-zuXDnJmOz9xNF76uuOsf0EvbP-7IRrUIvOR6XnJoavUnjncPnBrkUvdZXAFciYke4IrlkZEUljRn9qSug2ODtN5sIPrcQSIPl_InB2K5rFtXJbbVzpJtRsX9A\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEiTzwrWOU_vqjbAZYRUouQGdcCHy-OBAzkY8KUs-P5u1jVxfud85JaDZx8lzwlXH2Nt7-zuXDnJmOz9xNF76uuOsf0EvbP-7IRrUIvOR6XnJoavUnjncPnBrkUvdZXAFciYke4IrlkZEUljRn9qSug2ODtN5sIPrcQSIPl_InB2K5rFtXJbbVzpJtRsX9A\" /\u003e\u003c/a\u003e\u003c/div\u003e\n  \u003c!-- صورة 11 --\u003e\n  \u003cdiv class=\"separator\"\u003e\u003ca href=\"https://blogger.googleusercontent.com/img/a/AVvXsEhuDT9apdCYtuyjkuRU6iYnUZsU8O4Yt6DEoBsqLO-imPyqrfLO3IRcQObFUelbi9xHcyLE_Kc7botuv4_1VN52aekm_xNBJoJ4oFMmq_42jjhEZE8XxhSIcUmUrRZHJtqpc5lqLedGV6qCFZLDvOTeQ6hiGf5wBfz6cVu3NfeY__VSEkXqYoB-X-6AUDk\"\u003e\u003cimg src=\"https://blogger.googleusercontent.com/img/a/AVvXsEhuDT9apdCYtuyjkuRU6iYnUZsU8O4Yt6DEoBsqLO-imPyqrfLO3IRcQObFUelbi9xHcyLE_Kc7botuv4_1VN52aekm_xNBJoJ4oFMmq_42jjhEZE8XxhSIcUmUrRZHJtqpc5lqLedGV6qCFZLDvOTeQ6hiGf5wBfz6cVu3NfeY__VSEkXqYoB-X-6AUDk\" /\u003e\u003c/a\u003e\u003c/div\u003e\n\u003c/div\u003e\n  \u003cdiv style=\"font-family: Arial; margin-top: 40px; margin: auto; max-width: 900px;\"\u003e\n\n\u003ch2 style=\"text-align: center;\"\u003e📲 كيفية تثبيت تطبيق Careingo\u003c/h2\u003e\n\n\u003cp style=\"font-size: 18px; text-align: center;\"\u003e\nبما أن كارينجو يعمل كتطبيق ويب ، يمكنك شغيله على جهازك بسهولة\nليعمل مثل من متصفحك كاي تطبيق عادي على هاتفك أو حاسوبك.\n\u003c/p\u003e\n\n\u003chr /\u003e\n\n\u003c!-- ANDROID --\u003e\n\n\u003ch3\u003e🤖 التثبيت على هواتف الأندرويد\u003c/h3\u003e\n\n\u003col style=\"font-size: 18px; line-height: 2;\"\u003e\n\n\u003cli\u003e\nاضغط على رابط التطبيق الموجود أسفل الصفحة\n\u003c/li\u003e\n\n\u003cli\u003e\nعند فتح الموقع في متصفح \n\u003cb\u003eGoogle Chrome\u003c/b\u003e\nاضغط على زر القائمة\n\u003cspan style=\"font-size: 20px;\"\u003e⋮\u003c/span\u003e\nفي أعلى الشاشة\n\u003c/li\u003e\n\n\u003cli\u003e\nاختر الخيار\n\u003cb\u003eإضافة إلى الشاشة الرئيسية\u003c/b\u003e\n\u003c/li\u003e\n\n\u003cli\u003e\nاضغط على زر \u003cb\u003eإضافة\u003c/b\u003e\nوسيظهر تطبيق Careingo على الشاشة الرئيسية لهاتفك\n\u003c/li\u003e\n\n\u003c/ol\u003e\n    \nيمكنك بسهولة ايضا تثبيت نسخة apk من الزر اعلاه\n\n\n\u003chr /\u003e\n\n\u003c!-- IOS --\u003e\n\n\u003ch3\u003e🍎 التثبيت على هواتف iPhone و iPad\u003c/h3\u003e\n\n\u003col style=\"font-size: 18px; line-height: 2;\"\u003e\n\n\u003cli\u003e\nافتح رابط التطبيق باستخدام متصفح\n\u003cb\u003eSafari\u003c/b\u003e\n\u003c/li\u003e\n\n\u003cli\u003e\nاضغط على زر المشاركة\n\u003cspan style=\"font-size: 20px;\"\u003e⬆️\u003c/span\u003e\nالموجود أسفل الشاشة\n\u003c/li\u003e\n\n\u003cli\u003e\nقم بالتمرير للأسفل واختر\n\u003cb\u003eإضافة إلى الشاشة الرئيسية\u003c/b\u003e\n\u003c/li\u003e\n\n\u003cli\u003e\nاضغط على \u003cb\u003eإضافة\u003c/b\u003e\nوسيظهر التطبيق كأيقونة مستقلة على جهازك\n\u003c/li\u003e\n\n\u003c/ol\u003e\n\n\u003chr /\u003e\n\n\u003cp style=\"font-size: 18px; margin-top: 30px; text-align: center;\"\u003e\nبعد تثبيت التطبيق ستتمكن من استخدامه بسهولة\nمثل أي تطبيق آخر على جهازك.\n\u003c/p\u003e\n\n\u003c/div\u003e\n\n\n\u003cscript src=\"https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js\"\u003e\u003c/script\u003e\n\u003cscript src=\"https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js\"\u003e\u003c/script\u003e\n\n\u003cscript\u003e\n\nconst firebaseConfig = {\ndatabaseURL:\"https://carengocount-default-rtdb.firebaseio.com/\"\n};\n\nfirebase.initializeApp(firebaseConfig);\n\nconst db = firebase.database();\n\nconst counterRef = db.ref(\"downloads/total\");\n\nconst visitorsRef = db.ref(\"visitors\");\n\ncounterRef.on(\"value\",(snapshot)=\u003e{\ndocument.getElementById(\"downloadCount\").innerText = snapshot.val() || 0;\n});\n\n\nfunction getDeviceID(){\n\nlet id = localStorage.getItem(\"careingoDeviceID\");\n\nif(!id){\n\nid = Math.random().toString(36).substring(2,12);\n\nlocalStorage.setItem(\"careingoDeviceID\",id);\n\n}\n\nreturn id;\n\n}\n\nfunction increaseCounter(callback){\n\nlet deviceID = getDeviceID();\n\nvisitorsRef.child(deviceID).once(\"value\",(snapshot)=\u003e{\n\nif(!snapshot.exists()){\n\nvisitorsRef.child(deviceID).set(true);\n\ncounterRef.transaction((current)=\u003e{\nreturn (current || 0) + 1;\n});\n\n}\n\nif(callback) callback();\n\n});\n\n}\n\nfunction openApp(){\nincreaseCounter(()=\u003e{\nwindow.open(\"https://careingo.onrender.com/\",\"_blank\");\n});\n}\n\nfunction downloadAPK(){\nincreaseCounter(()=\u003e{\nwindow.open(\n\"https://drive.google.com/uc?export=download\u0026id=1STpo6Oe4oLx5zpdlh69NectCdNLK3bem\",\n\"_blank\"\n);\n});\n}\n\nfunction scrollToAPK(){\ndocument.getElementById(\"apkSection\").scrollIntoView({behavior:\"smooth\"});\n}\n  \n\n\n\u003c/script\u003e\n\n\u003c/body\u003e\n\u003c/html\u003e\n"
+                                               },
+                                   "link":  [
+                                                "@{rel=replies; type=application/atom+xml; href=https://www.artiatechstudio.com.ly/feeds/4777210340969821277/comments/default; title=تعليقات الرسالة}",
+                                                "@{rel=replies; type=text/html; href=https://www.artiatechstudio.com.ly/2026/03/careingo.html#comment-form; title=0 تعليقات}",
+                                                "@{rel=edit; type=application/atom+xml; href=https://www.blogger.com/feeds/8638460023147036314/posts/default/4777210340969821277}",
+                                                "@{rel=self; type=application/atom+xml; href=https://www.blogger.com/feeds/8638460023147036314/posts/default/4777210340969821277}",
+                                                "@{rel=alternate; type=text/html; href=https://www.artiatechstudio.com.ly/2026/03/careingo.html; title=Careingo | تواصل، تحدى، تطور}"
+                                            ],
+                                   "author":  [
+                                                  "@{name=; uri=; email=; gd$image=}"
+                                              ],
+                                   "media$thumbnail":  {
+                                                           "xmlns$media":  "http://search.yahoo.com/mrss/",
+                                                           "url":  "https://blogger.googleusercontent.com/img/a/AVvXsEi4KGSJx8kHwsN7bj8_UVsPiZ4QSY6zPZIEwg68qSlFWeHgMQKMp34hyn2jSz01v63k1j0j9k4KpIWIChbFJcGz7YZ8PUVBZSlB_ehXHfAJRaoYs_-gJ0MCW8BNasdwzD5-lJZhkV9dMrLfVwR0KGmmxfMZa68AnrfxK6_wNJ_kA21sBLTkxZJS5Iea8es=s72-c",
+                                                           "height":  "72",
+                                                           "width":  "72"
+                                                       },
+                                   "thr$total":  {
+                                                     "$t":  "0"
+                                                 }
+                               }
+                           ]
+             }
+}

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'login_screen.dart';
-import '../../main.dart'; // import to navigate to MainScreen
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -17,6 +16,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   bool _isLoading = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
   String _errorMessage = '';
 
   Future<void> _register() async {
@@ -71,22 +72,43 @@ class _RegisterScreenState extends State<RegisterScreen> {
       
       await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
         'username': username,
+        'usernameLower': username.toLowerCase(),
         'email': email,
         'role': isAdmin ? 'admin' : 'reader', // reader, publisher, admin
         'memberId': memberId,
         'followersCount': 0,
         'followingCount': 0,
+        'following': [], // قائمة من أتابعهم
+        'avatarUrl': null,
         'createdAt': FieldValue.serverTimestamp(),
       });
 
+      // Send verification email
+      await userCredential.user!.sendEmailVerification();
+
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const MainScreen()),
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => AlertDialog(
+            title: const Text('تفعيل الحساب'),
+            content: const Text('تم إرسال رابط التفعيل لبريدك الإلكتروني، يرجى تفعيل حسابك لتتمكن من تسجيل الدخول والمشاركة.'),
+            actions: [
+              TextButton(onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (route) => false,
+              ), child: const Text('حسناً'))
+            ],
+          ),
         );
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
         _errorMessage = e.message ?? 'حدث خطأ في إنشاء الحساب.';
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'عذراً، حدث خطأ. تأكد من إعدادات قاعدة البيانات أو جرب تسجيل الدخول بدلاً من ذلك.';
       });
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -102,7 +124,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: Column(
           children: [
             if (_errorMessage.isNotEmpty)
-              Text(_errorMessage, style: const TextStyle(color: Colors.red)),
+               Container(
+                padding: const EdgeInsets.all(10),
+                width: double.infinity,
+                decoration: BoxDecoration(color: Colors.redAccent.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
+                child: Text(_errorMessage, style: const TextStyle(color: Colors.redAccent, fontSize: 13), textAlign: TextAlign.center),
+              ),
             const SizedBox(height: 10),
             TextField(
               controller: _usernameController,
@@ -125,22 +152,30 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(height: 20),
             TextField(
               controller: _passwordController,
-              decoration: const InputDecoration(
+              obscureText: _obscurePassword,
+              decoration: InputDecoration(
                 labelText: 'كلمة المرور',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.lock),
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: IconButton(
+                  icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () => setState(() => _obscurePassword = !_obscurePassword),
+                ),
               ),
-              obscureText: true,
             ),
             const SizedBox(height: 20),
             TextField(
               controller: _confirmPasswordController,
-              decoration: const InputDecoration(
+              obscureText: _obscureConfirmPassword,
+              decoration: InputDecoration(
                 labelText: 'تأكيد كلمة المرور',
-                border: OutlineInputBorder(),
-                prefixIcon: Icon(Icons.lock_outline),
+                border: const OutlineInputBorder(),
+                prefixIcon: const Icon(Icons.lock_outline),
+                suffixIcon: IconButton(
+                  icon: Icon(_obscureConfirmPassword ? Icons.visibility_off : Icons.visibility),
+                  onPressed: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+                ),
               ),
-              obscureText: true,
             ),
             const SizedBox(height: 30),
             _isLoading
@@ -150,8 +185,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 50),
                       backgroundColor: Theme.of(context).colorScheme.primary,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     ),
-                    child: const Text('إنشاء حساب', style: TextStyle(color: Colors.black, fontSize: 18)),
+                    child: const Text('إنشاء حساب', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
                   ),
             const SizedBox(height: 20),
             TextButton(

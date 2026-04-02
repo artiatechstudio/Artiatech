@@ -1,4 +1,4 @@
-package ly.com.artiatechstudio.artiatech
+package ly.com.artiatechstudio
 
 import io.flutter.embedding.android.FlutterActivity
 
