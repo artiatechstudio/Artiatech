@@ -6,6 +6,7 @@ class PostCard extends StatelessWidget {
   final String publisher;
   final String imageUrl;
   final int likes;
+  final int views;
   final VoidCallback onDownload;
   final VoidCallback onTap;
 
@@ -15,6 +16,7 @@ class PostCard extends StatelessWidget {
     required this.publisher,
     required this.imageUrl,
     required this.likes,
+    required this.views,
     required this.onDownload,
     required this.onTap,
   });
@@ -27,15 +29,16 @@ class PostCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 170,
-        margin: const EdgeInsets.only(left: 15, bottom: 5),
+        margin: const EdgeInsets.only(left: 15, bottom: 8),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(22),
           color: isDark ? Colors.white.withOpacity(0.05) : Colors.white,
+          border: isDark ? Border.all(color: Colors.white10, width: 0.5) : Border.all(color: Colors.blueAccent.withOpacity(0.1), width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 15,
-              offset: const Offset(0, 8),
+              color: isDark ? Colors.black38 : Colors.blueAccent.withOpacity(0.1),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
             ),
           ],
         ),
@@ -52,7 +55,7 @@ class PostCard extends StatelessWidget {
                   children: [
                     Hero(
                       tag: 'post_img_${title}_${DateTime.now().millisecond}', // Tag فريد
-                      child: _buildImage(imageUrl),
+                      child: _buildImage(context, imageUrl),
                     ),
                     // تدرج لوني لجعل النص واضحاً
                     Positioned.fill(
@@ -116,6 +119,10 @@ class PostCard extends StatelessWidget {
                               const Icon(Icons.favorite, size: 12, color: Colors.redAccent),
                               const SizedBox(width: 4),
                               Text(likes.toString(), style: const TextStyle(color: Colors.grey, fontSize: 10)),
+                              const SizedBox(width: 8),
+                              const Icon(Icons.visibility, size: 12, color: Colors.blueAccent),
+                              const SizedBox(width: 4),
+                              Text(views.toString(), style: const TextStyle(color: Colors.grey, fontSize: 10)),
                             ],
                           ),
                         ],
@@ -131,7 +138,7 @@ class PostCard extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(String url) {
+  Widget _buildImage(BuildContext context, String url) {
     if (url.startsWith('data:image')) {
       final base64String = url.split(',').last;
       return Image.memory(base64.decode(base64String), fit: BoxFit.cover, errorBuilder: (_, __, ___) => const Icon(Icons.error));
@@ -139,7 +146,7 @@ class PostCard extends StatelessWidget {
       return Image.network(
         url,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => Container(color: Colors.grey[800], child: const Icon(Icons.broken_image, color: Colors.white)),
+        errorBuilder: (_, __, ___) => Container(color: Theme.of(context).dividerColor.withOpacity(0.1), child: Icon(Icons.broken_image, color: Theme.of(context).disabledColor)),
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return Center(child: CircularProgressIndicator(value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null));

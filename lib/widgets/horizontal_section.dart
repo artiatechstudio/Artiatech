@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 import 'post_card.dart';
 import '../models/article_model.dart';
 import '../screens/search_page.dart';
-import '../screens/profile_page.dart';
 import '../screens/novels/novel_details_page.dart';
 import '../screens/games/html_game_player.dart';
 import '../screens/app_details_page.dart';
@@ -161,6 +160,7 @@ class HorizontalSection extends StatelessWidget {
                 publisher: data['authorName'] ?? '',
                 imageUrl: data['thumbnailUrl'] ?? '',
                 likes: (data['likesCount'] as num?)?.toInt() ?? 0,
+                views: (data['viewsCount'] as num?)?.toInt() ?? 0,
                 onDownload: () => _showDownloadOptions(context, id, data['title'] ?? ''),
                 onTap: () => _showPostDetails(context, data, id),
               ),
@@ -195,6 +195,7 @@ class HorizontalSection extends StatelessWidget {
           publisher: item.authorName,
           imageUrl: item.thumbnailUrl ?? '',
           likes: 150 + index,
+          views: 320 + (index * 12),
           onDownload: () => _saveTo(context, item.id, item.title, 'library'),
           onTap: () => _showPostDetailsFallback(context, item),
         );
@@ -269,11 +270,16 @@ class HorizontalSection extends StatelessWidget {
   }
 
   void _openPost(BuildContext context, Map<String, dynamic> data, String id) {
+    _firestore.incrementPostViews(id);
     String type = data['type'] ?? '';
     if (type == 'novel') {
       Navigator.push(context, MaterialPageRoute(builder: (_) => NovelDetailsPage(novelId: id, title: data['title'] ?? '', imageUrl: data['thumbnailUrl'] ?? '')));
     } else if (type == 'game_html') {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => HtmlGamePlayer(title: data['title'] ?? '', htmlContent: data['content'] ?? '', description: data['description'] ?? '', publisher: data['authorName'] ?? '', createdAt: data['createdAt'])));
+      // نفضل المحتوى (الذي يحتوي على iframe) للألعاب لضمان فتح الحاوية الفاخرة
+      final String gameSource = (data['content'] ?? '').toString().isNotEmpty 
+          ? (data['content'] ?? '') 
+          : (data['link'] ?? '');
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HtmlGamePlayer(title: data['title'] ?? '', htmlContent: gameSource, description: data['description'] ?? '', publisher: data['authorName'] ?? '', createdAt: data['createdAt'])));
     } else if (type == 'app_apk') {
       Navigator.push(context, MaterialPageRoute(builder: (_) => AppDetailsPage(appId: id, data: data)));
     } else {

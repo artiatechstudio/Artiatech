@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import '../services/firestore_service.dart';
 import '../screens/novels/novel_details_page.dart';
 import '../screens/games/html_game_player.dart';
 import '../screens/app_details_page.dart';
 import '../screens/public_profile_page.dart';
 import '../screens/articles/article_viewer.dart';
+import '../widgets/avatar_widget.dart';
+import '../main.dart'; // Access soundNotifier
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -24,6 +28,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   List<DocumentSnapshot> _postsResults = [];
   List<DocumentSnapshot> _usersResults = [];
   bool _isSearching = false;
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -31,19 +36,35 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
   }
 
-  void _handleSearch(String query) async {
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _tabController.dispose();
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _handleSearch(String query) {
+    // ✅ Debounce: ننتظر 500ms بعد آخر حرف قبل الإرسال
+    _debounce?.cancel();
     if (query.trim().isEmpty) {
       setState(() { _postsResults = []; _usersResults = []; _isSearching = false; });
       return;
     }
     setState(() => _isSearching = true);
-    try {
-      final postsSnap = await _firestore.searchPosts(query);
-      final usersSnap = await _firestore.searchUsers(query);
-      setState(() { _postsResults = postsSnap.docs; _usersResults = usersSnap.docs; _isSearching = false; });
-    } catch (e) {
-      setState(() => _isSearching = false);
-    }
+    _debounce = Timer(const Duration(milliseconds: 500), () async {
+      try {
+        final postsDocs = await _firestore.searchPosts(query);
+        final usersSnap = await _firestore.searchUsers(query);
+        if (mounted) setState(() { _postsResults = postsDocs; _usersResults = usersSnap.docs; _isSearching = false; });
+      } catch (e) {
+        debugPrint('Search Error: $e'); // ✅ تسجيل الخطأ لرؤيته في التريمينال
+        if (mounted) {
+          setState(() => _isSearching = false);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('خطأ في البحث: $e')));
+        }
+      }
+    });
   }
 
   @override
@@ -103,22 +124,70 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   Widget _buildUsersList() {
     if (_isSearching) return const Center(child: CircularProgressIndicator());
+    final currentUser = FirebaseAuth.instance.currentUser;
     if (_usersResults.isEmpty) return _buildEmptyState('لم نعثر على ناشر بهذا الاسم');
+    
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       itemCount: _usersResults.length,
       itemBuilder: (context, index) {
         final data = _usersResults[index].data() as Map<String, dynamic>;
         final userId = _usersResults[index].id;
+        final bool isMe = currentUser != null && currentUser.uid == userId;
+
         return Card(
-          margin: const EdgeInsets.only(bottom: 10),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          margin: const EdgeInsets.only(bottom: 12),
+          elevation: 0,
+          color: Theme.of(context).cardColor.withOpacity(0.5),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20), side: BorderSide(color: Colors.blueAccent.withOpacity(0.1))),
           child: ListTile(
-            leading: const CircleAvatar(child: Icon(Icons.person)),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            leading: AvatarWidget(userId: userId, base64String: data['avatarBase64'], url: data['avatarUrl'], radius: 25),
             title: Text(data['username'] ?? 'مستخدم مجهول', style: const TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(data['role'] ?? 'ناشر في أرتياتك', style: const TextStyle(fontSize: 12)),
-            trailing: const Icon(Icons.chevron_left),
-            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => PublicProfilePage(userId: userId, username: data['username'] ?? ''))),
+            subtitle: Text(data['role'] ?? 'ناشر في أرتياتك', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+            trailing: isMe 
+              ? const SizedBox.shrink()
+              : StatefulBuilder(
+                  builder: (context, setTileState) {
+                    final List followers = data['followers'] ?? [];
+                    bool isFollowingUser = currentUser != null && followers.contains(currentUser.uid);
+
+                    return ElevatedButton(
+                      onPressed: () async {
+                        if (currentUser == null) return;
+                        
+                        if (soundNotifier.value) {
+                          SystemSound.play(SystemSoundType.click);
+                          HapticFeedback.lightImpact();
+                        }
+                        
+                        if (isFollowingUser) {
+                          await _firestore.unfollowUser(currentUser.uid, userId);
+                          setTileState(() => isFollowingUser = false);
+                        } else {
+                          await _firestore.followUser(currentUser.uid, userId);
+                          setTileState(() => isFollowingUser = true);
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('أنت تتابع ${data['username']} الآن!')));
+                          }
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isFollowingUser ? Colors.redAccent.withOpacity(0.1) : Colors.blueAccent,
+                        foregroundColor: isFollowingUser ? Colors.redAccent : Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        minimumSize: const Size(60, 35),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        side: isFollowingUser ? const BorderSide(color: Colors.redAccent, width: 0.5) : null,
+                      ),
+                      child: Text(isFollowingUser ? 'إلغاء' : 'متابعة', style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                    );
+                  }
+                ),
+            onTap: () {
+              if (soundNotifier.value) SystemSound.play(SystemSoundType.click);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => PublicProfilePage(userId: userId, username: data['username'] ?? '')));
+            },
           ),
         );
       },
@@ -154,9 +223,14 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   }
 
   void _openPost(Map<String, dynamic> data, String id) {
+    _firestore.incrementPostViews(id);
     String type = data['type'] ?? '';
     if (type == 'game_html') {
-      Navigator.push(context, MaterialPageRoute(builder: (_) => HtmlGamePlayer(title: data['title'] ?? '', htmlContent: data['content'] ?? '', description: data['description'] ?? '', publisher: data['authorName'] ?? '', createdAt: data['createdAt'])));
+      // نفضل المحتوى (الذي يحتوي على iframe) للألعاب لضمان فتح الحاوية الفاخرة
+      final String gameSource = (data['content'] ?? '').toString().isNotEmpty 
+          ? (data['content'] ?? '') 
+          : (data['link'] ?? '');
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HtmlGamePlayer(title: data['title'] ?? '', htmlContent: gameSource, description: data['description'] ?? '', publisher: data['authorName'] ?? '', createdAt: data['createdAt'])));
     } else if (type == 'article') {
       Navigator.push(context, MaterialPageRoute(builder: (_) => ArticleViewer(title: data['title'] ?? '', content: data['content'] ?? '', link: data['link'] ?? '', publisher: data['authorName'] ?? '', createdAt: data['createdAt'])));
     } else if (type == 'app_apk') {

@@ -26,12 +26,12 @@ class TechPage extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(colors: [Colors.purpleAccent.withValues(alpha: 0.8), Colors.blueAccent.withValues(alpha: 0.8)]),
-                boxShadow: [BoxShadow(color: Colors.purpleAccent.withValues(alpha: 0.5), blurRadius: 20, offset: const Offset(0, 5))],
+                gradient: LinearGradient(colors: [Colors.purpleAccent.withOpacity(0.8), Colors.blueAccent.withOpacity(0.8)]),
+                boxShadow: [BoxShadow(color: Colors.purpleAccent.withOpacity(0.5), blurRadius: 20, offset: const Offset(0, 5))],
               ),
               child: Stack(
                 children: [
-                   Positioned(right: 20, top: 20, child: Icon(Icons.shop_two, size: 80, color: Colors.white.withValues(alpha: 0.2))),
+                   Positioned(right: 20, top: 20, child: Icon(Icons.shop_two, size: 80, color: Colors.white.withOpacity(0.2))),
                    const Center(child: Text('متجر التطبيقات والألعاب', style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold, color: Colors.white))),
                 ],
               ),
@@ -41,6 +41,16 @@ class TechPage extends StatelessWidget {
             title: '⚙️ الأكثر رواجاً التقنية',
             isAdmin: userProvider.isAdmin,
             streamItems: firestore.getPosts('tech', isAdmin: userProvider.isAdmin),
+          ),
+          HorizontalSection(
+            title: '🎮 أحدث الألعاب',
+            isAdmin: userProvider.isAdmin,
+            streamItems: firestore.getPosts('game_html', isAdmin: userProvider.isAdmin),
+          ),
+          HorizontalSection(
+            title: '📱 تطبيقات الأندرويد',
+            isAdmin: userProvider.isAdmin,
+            streamItems: firestore.getPosts('app_apk', isAdmin: userProvider.isAdmin),
           ),
           HorizontalSection(
             title: '🤝 تتابعه', 

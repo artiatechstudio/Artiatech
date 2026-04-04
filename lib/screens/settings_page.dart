@@ -16,26 +16,28 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('إعدادات التطبيق'),
+        title: const Text('إعدادات أرتياتك'),
         centerTitle: true,
       ),
       body: ListView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
+          
+          _buildSectionHeader('المظهر والتخصيص'),
           _buildDropdownTile(
             icon: Icons.brightness_6_outlined,
-            title: 'وضع المظهر',
-            subtitle: 'اختر المظهر المناسب لعينيك',
+            title: 'وضع الشاشة',
+            subtitle: 'تغيير سمة التطبيق (ليلي/نهاري)',
             child: ValueListenableBuilder<ThemeMode>(
               valueListenable: themeNotifier,
               builder: (context, currentMode, _) => DropdownButton<ThemeMode>(
                 value: currentMode,
                 underline: const SizedBox(),
                 items: const [
-                  DropdownMenuItem(value: ThemeMode.light, child: Text('مضيء (Light)')),
-                  DropdownMenuItem(value: ThemeMode.dark, child: Text('مظلم (Dark)')),
-                  DropdownMenuItem(value: ThemeMode.system, child: Text('تلقائي (System)')),
+                  DropdownMenuItem(value: ThemeMode.light, child: Text('مضيء')),
+                  DropdownMenuItem(value: ThemeMode.dark, child: Text('مظلم')),
+                  DropdownMenuItem(value: ThemeMode.system, child: Text('تلقائي')),
                 ],
                 onChanged: (newMode) {
                   if (newMode != null) themeNotifier.value = newMode;
@@ -43,11 +45,12 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
-          const SizedBox(height: 30),
+          
+          const SizedBox(height: 20),
           _buildDropdownTile(
             icon: Icons.language_outlined,
-            title: 'اللغة',
-            subtitle: 'اختر لغة واجهة التطبيق',
+            title: 'لغة التطبيق',
+            subtitle: 'اختر لغة الواحدة والرسائل',
             child: DropdownButton<String>(
               value: _currentLanguage,
               underline: const SizedBox(),
@@ -60,11 +63,14 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
           ),
+
           const SizedBox(height: 30),
+          _buildSectionHeader('التنبيهات والأصوات'),
+          
           _buildDropdownTile(
             icon: Icons.notifications_active_outlined,
-            title: 'الإشعارات',
-            subtitle: 'التحكم في تنبيهات التطبيق',
+            title: 'إشعارات النظام',
+            subtitle: 'تفعيل إشعارات المتابعة والجديد',
             child: DropdownButton<String>(
               value: _notificationStatus,
               underline: const SizedBox(),
@@ -77,8 +83,30 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
           ),
+
+          const SizedBox(height: 20),
+          _buildDropdownTile(
+            icon: Icons.volume_up_outlined,
+            title: 'المؤثرات الصوتية',
+            subtitle: 'أصوات النقر والتفاعل داخل التطبيق',
+            child: ValueListenableBuilder<bool>(
+              valueListenable: soundNotifier,
+              builder: (context, isEnabled, _) => Switch(
+                value: isEnabled,
+                activeColor: Colors.blueAccent,
+                onChanged: (val) => soundNotifier.value = val,
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _buildSectionHeader(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15, top: 10),
+      child: Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blueAccent)),
     );
   }
 
@@ -89,7 +117,7 @@ class _SettingsPageState extends State<SettingsPage> {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
-          BoxShadow(color: Colors.black.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 5))
+          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))
         ],
       ),
       child: Row(

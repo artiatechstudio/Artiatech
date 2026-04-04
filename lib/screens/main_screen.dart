@@ -40,6 +40,12 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   @override
+  void dispose() {
+    _notificationService.cancelNotifications(); // ✅ إلغاء الاستماع فوراً عند التبديل لمنع الانهيار
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -72,7 +78,10 @@ class _MainScreenState extends State<MainScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: _pages[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: Container(
         margin: const EdgeInsets.fromLTRB(24, 0, 24, 25),
         height: 65,

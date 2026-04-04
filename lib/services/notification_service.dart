@@ -1,10 +1,12 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 import 'firestore_service.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin = FlutterLocalNotificationsPlugin();
   final FirestoreService _firestore = FirestoreService();
+  StreamSubscription<QuerySnapshot>? _subscription; // ✅ لإدارة تيار البيانات ومنع الانهيار عند تبديل الحسابات
 
   // 1. تهيئة النظام (Initialization)
   static Future<void> init() async {
@@ -48,7 +50,9 @@ class NotificationService {
 
   // 3. الاستماع للإشعارات الجديدة (Real-time Listening)
   void listenToNotifications(String userId) {
-    _firestore.getNotifications(userId).listen((snapshot) {
+    cancelNotifications(); // تنظيف أي استماع قديم قبل البدء
+    
+    _subscription = _firestore.getNotifications(userId).listen((snapshot) {
       for (var change in snapshot.docChanges) {
         if (change.type == DocumentChangeType.added) {
           final data = change.doc.data() as Map<String, dynamic>;
@@ -59,7 +63,13 @@ class NotificationService {
           }
         }
       }
-    });
+    }, onError: (e) => print('Notification stream error: $e'));
+  }
+
+  // 4. إيقاف الاستماع (مهم جداً عند تسجيل الخروج لمنع الـ Permission Denied)
+  void cancelNotifications() {
+    _subscription?.cancel();
+    _subscription = null;
   }
 
   void _triggerNotification(Map<String, dynamic> data) {

@@ -39,6 +39,7 @@ dependencies:
   cloud_firestore: ^6.2.0
   url_launcher: ^6.3.2
   google_fonts: ^8.0.2
+  google_sign_in: ^6.2.1
   http: ^1.6.0
   cached_network_image: ^3.4.1
   webview_flutter: ^4.13.1
@@ -52,9 +53,10 @@ dependencies:
   share_plus: ^10.0.0
   flutter_widget_from_html: ^0.17.1
   dio: ^5.4.1
-  open_file_plus: ^3.4.1
+  open_filex: ^4.7.0
   permission_handler: ^11.0.1
   flutter_local_notifications: ^18.0.1
+  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
   flutter_test:
@@ -89,6 +91,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - splash.png
+    - icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

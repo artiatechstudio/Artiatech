@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -6,8 +7,9 @@ import 'screens/onboarding_screen.dart';
 import 'providers/user_provider.dart';
 import 'services/notification_service.dart';
 
-// التحكم بثيم التطبيق في كامل الأرجاء
+// التحكم بخصائص التطبيق في كامل الأرجاء
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.system);
+final ValueNotifier<bool> soundNotifier = ValueNotifier(true); // مفعل افتراضياً
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,18 +18,22 @@ void main() async {
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyA6u6pxUGlx9n8ksKFoJ_ycC_BmBjjKHaA",
-        authDomain: "carengocount.firebaseapp.com",
-        databaseURL: "https://carengocount-default-rtdb.firebaseio.com",
-        projectId: "carengocount",
-        storageBucket: "carengocount.firebasestorage.app",
-        messagingSenderId: "770281294675",
-        appId: "1:770281294675:web:b48df5992f23a2da5cefa6",
-        measurementId: "G-LT1MR4JP5E",
+        apiKey: "AIzaSyAQJ0FnP5sHLgoyNu19JnEJf5-CdOWWVTQ",
+        authDomain: "artiatech-studio.firebaseapp.com",
+        projectId: "artiatech-studio",
+        storageBucket: "artiatech-studio.firebasestorage.app",
+        messagingSenderId: "318277778901",
+        appId: "1:318277778901:web:ff9c76bcf9cc268549915c",
       ),
     );
   } else {
     await Firebase.initializeApp();
+    
+    // ✅ تحسين الأداء: تفعيل التخزين المحلي لفايرستور لتقليل استهلاك البيانات
+    FirebaseFirestore.instance.settings = const Settings(
+      persistenceEnabled: true,
+      cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED, // تخزين ما يمكن على الجهاز
+    );
   }
 
   await NotificationService.init(); // القفزة الكبرى: تهيئة الإشعارات

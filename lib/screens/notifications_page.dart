@@ -3,6 +3,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 import '../services/firestore_service.dart';
+import 'public_profile_page.dart';
+import 'articles/article_viewer.dart';
+import 'games/html_game_player.dart';
+import 'novels/novel_details_page.dart';
+import 'app_details_page.dart';
+import 'auth/login_screen.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
@@ -10,7 +16,7 @@ class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return const Scaffold(body: Center(child: Text('يرجى تسجيل الدخول')));
+    if (user == null) return _buildLoggedOutView(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -19,7 +25,11 @@ class NotificationsPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.done_all, size: 20),
             onPressed: () {
-              // منطق "تحديد الكل كمقروء" (مستقبلاً)
+              // ✅ تحديد الكل كمقروء
+              FirestoreService().markAllNotificationsAsRead(user.uid);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('تم تحديد جميع الإشعارات كمقروءة')),
+              );
             },
             tooltip: 'تحديد الكل كمقروء',
           )
@@ -42,7 +52,7 @@ class NotificationsPage extends StatelessWidget {
             separatorBuilder: (_, __) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final d = docs[index].data() as Map<String, dynamic>;
-              return _buildNotificationCard(context, d);
+              return _buildNotificationCard(context, d, docs[index].id, user.uid);
             },
           );
         },
@@ -50,7 +60,7 @@ class NotificationsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNotificationCard(BuildContext context, Map<String, dynamic> data) {
+  Widget _buildNotificationCard(BuildContext context, Map<String, dynamic> data, String notifId, String currentUserId) {
     String type = data['type'] ?? '';
     String fromName = data['fromUserName'] ?? 'مبدع';
     String postTitle = data['postTitle'] ?? '';
@@ -97,11 +107,41 @@ class NotificationsPage extends StatelessWidget {
           padding: const EdgeInsets.only(top: 8),
           child: Text(time, style: const TextStyle(fontSize: 10, color: Colors.grey)),
         ),
-        onTap: () {
-          // منطق الانتقال للعمل أو الملف الشخصي (مستقبلاً)
+        onTap: () async {
+          // ✅ تعليم كمقروء
+          FirestoreService().markNotificationAsRead(currentUserId, notifId);
+          
+          if (type == 'follow') {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (_) => PublicProfilePage(userId: data['fromUserId'], username: fromName)
+            ));
+          } else if (data['postId'] != null) {
+            // جلب العمل وعرضه
+            final doc = await FirebaseFirestore.instance.collection('posts').doc(data['postId']).get();
+            if (doc.exists && context.mounted) {
+              _openPost(context, doc.data() as Map<String, dynamic>, doc.id);
+            } else if (context.mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('عذراً، هذا العمل لم يعد متاحاً أو تم حذفه.')));
+            }
+          }
         },
       ),
     );
+  }
+
+  void _openPost(BuildContext context, Map<String, dynamic> data, String id) {
+    String type = data['type'] ?? '';
+    if (type == 'game_html') {
+      final String gameSource = (data['source'] == 'blogger' || (data['link'] ?? '').isNotEmpty)
+          ? (data['link'] ?? '') : (data['content'] ?? '');
+      Navigator.push(context, MaterialPageRoute(builder: (_) => HtmlGamePlayer(title: data['title'] ?? '', htmlContent: gameSource, description: data['description'] ?? '', publisher: data['authorName'] ?? '', createdAt: data['createdAt'])));
+    } else if (type == 'novel') {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => NovelDetailsPage(novelId: id, title: data['title'] ?? '', imageUrl: data['thumbnailUrl'] ?? '')));
+    } else if (type == 'app_apk') {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => AppDetailsPage(appId: id, data: data)));
+    } else {
+      Navigator.push(context, MaterialPageRoute(builder: (_) => ArticleViewer(title: data['title'] ?? '', content: data['content'] ?? '', link: data['link'] ?? '', publisher: data['authorName'] ?? '', createdAt: data['createdAt'])));
+    }
   }
 
   Widget _buildEmptyState() {
@@ -115,6 +155,30 @@ class NotificationsPage extends StatelessWidget {
           const SizedBox(height: 8),
           const Text('انشر المزيد من الإبداع لتجذب المعجبين! 🚀', style: TextStyle(color: Colors.grey, fontSize: 12)),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLoggedOutView(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('الإشعارات')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.lock_outline, size: 80, color: Colors.grey),
+            const SizedBox(height: 20),
+            const Text('يرجى تسجيل الدخول لعرض إشعاراتك وتفاعلاتك'),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+              ),
+              child: const Text('تسجيل الدخول الآن'),
+            ),
+          ],
+        ),
       ),
     );
   }

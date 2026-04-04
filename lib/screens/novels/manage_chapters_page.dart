@@ -71,8 +71,14 @@ class _ManageChaptersPageState extends State<ManageChaptersPage> {
             Expanded(
               child: TextField(
                 controller: _chapterContentController,
-                maxLines: 20,
-                decoration: const InputDecoration(labelText: 'محتوى الفصل (نص قصة الرواية)', border: OutlineInputBorder()),
+                maxLines: null, // ✅ جعل الحقل غير محدود السطور ليوفر حرية كاملة للكتابة
+                expands: true, // ✅ جعله يتمدد لملء المساحة المتاحة
+                textAlignVertical: TextAlignVertical.top,
+                decoration: const InputDecoration(
+                  labelText: 'محتوى الفصل (نص قصة الرواية)', 
+                  alignLabelWithHint: true,
+                  border: OutlineInputBorder(),
+                ),
               ),
             ),
             const SizedBox(height: 20),

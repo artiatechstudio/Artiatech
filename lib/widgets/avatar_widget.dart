@@ -18,6 +18,24 @@ class AvatarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // تغليف الأفاتار في حاوية لإضافة الظل والحدود الفاخرة
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.blueAccent.withOpacity(0.2), width: 2),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: _buildAvatarBody(),
+    );
+  }
+
+  Widget _buildAvatarBody() {
     // 1. حالة رابط الصورة (URL)
     if (url != null && url!.isNotEmpty) {
       return CachedNetworkImage(
@@ -29,7 +47,7 @@ class AvatarWidget extends StatelessWidget {
         placeholder: (context, url) => CircleAvatar(
           radius: radius,
           backgroundColor: Colors.grey[200],
-          child: const CircularProgressIndicator(strokeWidth: 2),
+          child: const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
         ),
         errorWidget: (context, url, error) => _buildErrorAvatar(),
       );
@@ -37,28 +55,27 @@ class AvatarWidget extends StatelessWidget {
 
     // 2. حالة الإيموجي أو Base64
     if (base64String != null && base64String!.isNotEmpty) {
-      // إذا كان الطول بسيطاً (إيموجي)
-      if (base64String!.length < 10) {
-        return CircleAvatar(
-          radius: radius,
-          backgroundColor: Colors.blueAccent.withValues(alpha: 0.1),
-          child: Text(base64String!, style: TextStyle(fontSize: radius * 0.8)),
-        );
+      if (base64String!.length > 100) {
+        try {
+          final bytes = base64Decode(base64String!);
+          return CircleAvatar(
+            radius: radius,
+            backgroundImage: MemoryImage(bytes),
+          );
+        } catch (e) {}
       }
 
-      // إذا كان نصاً طويلاً (Base64)
-      try {
-        final bytes = base64Decode(base64String!);
-        return CircleAvatar(
-          radius: radius,
-          backgroundImage: MemoryImage(bytes),
-        );
-      } catch (e) {
-        return _buildErrorAvatar();
-      }
+      return CircleAvatar(
+        radius: radius,
+        backgroundColor: Colors.blueAccent.withOpacity(0.1),
+        child: Text(
+          base64String!,
+          style: TextStyle(fontSize: radius * 0.8),
+          textAlign: TextAlign.center,
+        ),
+      );
     }
 
-    // 3. الحالة الافتراضية (لا توجد صورة مريحة)
     return _buildErrorAvatar();
   }
 

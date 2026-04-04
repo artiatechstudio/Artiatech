@@ -19,6 +19,13 @@ class HomePage extends StatelessWidget {
       },
       child: ListView(
         children: [
+          // 0. إعلانات الإدارة
+          HorizontalSection(
+            title: '📢 إعلانات وتحديثات منصة أرتياتك',
+            isAdmin: userProvider.isAdmin,
+            streamItems: firestore.getPosts('announcement', isAdmin: userProvider.isAdmin),
+          ),
+
           // 1. رائج (Featured)
           HorizontalSection(
             title: '🔥 رائج الآن',

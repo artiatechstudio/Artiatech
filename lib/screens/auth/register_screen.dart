@@ -68,7 +68,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       int currentUnix = DateTime.now().millisecondsSinceEpoch;
       String memberId = currentUnix.toString().substring(5); // basic membership ID
 
-      bool isAdmin = username == 'Artiatech';
+      // ✅ قاعدة الأدمن الصارمة: التحقق من اسم المستخدم أو البريد الإلكتروني الرسمي
+      bool isAdmin = (username.toLowerCase() == 'artiatech') || (email.toLowerCase() == 'artiateech@gmail.com');
       
       await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
         'username': username,
@@ -127,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                Container(
                 padding: const EdgeInsets.all(10),
                 width: double.infinity,
-                decoration: BoxDecoration(color: Colors.redAccent.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(8)),
+                decoration: BoxDecoration(color: Colors.redAccent.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
                 child: Text(_errorMessage, style: const TextStyle(color: Colors.redAccent, fontSize: 13), textAlign: TextAlign.center),
               ),
             const SizedBox(height: 10),

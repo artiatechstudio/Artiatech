@@ -1,27 +1,44 @@
 {
   "project_info": {
-    "project_number": "770281294675",
-    "firebase_url": "https://carengocount-default-rtdb.firebaseio.com",
-    "project_id": "carengocount",
-    "storage_bucket": "carengocount.firebasestorage.app"
+    "project_number": "318277778901",
+    "project_id": "artiatech-studio",
+    "storage_bucket": "artiatech-studio.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:770281294675:android:cbe6e3761878fd5d5cefa6",
+        "mobilesdk_app_id": "1:318277778901:android:b779cde1751fc6fc49915c",
         "android_client_info": {
           "package_name": "ly.com.artiatechstudio"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "318277778901-4dun8mrefihmr2d2l2etujlkipqrol80.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ly.com.artiatechstudio",
+            "certificate_hash": "e10e516e211d717d578420fabdc378ceed5be735"
+          }
+        },
+        {
+          "client_id": "318277778901-n9pdhvf9qgl57ekh768e7arjojaeaim5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyA6u6pxUGlx9n8ksKFoJ_ycC_BmBjjKHaA"
+          "current_key": "AIzaSyA8lOFkAx_aiul_e61CmepcC8y0tR_G9vY"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "318277778901-n9pdhvf9qgl57ekh768e7arjojaeaim5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
