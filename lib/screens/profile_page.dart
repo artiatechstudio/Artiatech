@@ -390,11 +390,18 @@ class ProfilePage extends StatelessWidget {
             Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const Divider(),
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
+              child: StreamBuilder(
                 stream: FirestoreService().getUsersByIds(ids),
                 builder: (context, snap) {
-                  if (!snap.hasData) return const Center(child: CircularProgressIndicator());
-                  final docs = snap.data!.docs;
+                  if (snap.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
+                  
+                  List<QueryDocumentSnapshot> docs = [];
+                  if (snap.data is QuerySnapshot) {
+                    docs = (snap.data as QuerySnapshot).docs;
+                  } else if (snap.data is List<QueryDocumentSnapshot>) {
+                    docs = snap.data as List<QueryDocumentSnapshot>;
+                  }
+                  
                   if (docs.isEmpty) return const Center(child: Text('القائمة فارغة حالياً'));
                   
                   return ListView.builder(
@@ -491,17 +498,24 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildHorizontalList(
     BuildContext context,
-    Stream<QuerySnapshot> stream,
+    dynamic stream,
     UserProvider userProvider, {
     bool isAuthor = false,
   }) {
     return SizedBox(
       height: 200,
-      child: StreamBuilder<QuerySnapshot>(
+      child: StreamBuilder(
         stream: stream,
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const SizedBox();
-          final docs = snapshot.data!.docs;
+          if (snapshot.connectionState == ConnectionState.waiting) return const SizedBox();
+          
+          List<QueryDocumentSnapshot> docs = [];
+          if (snapshot.data is QuerySnapshot) {
+            docs = (snapshot.data as QuerySnapshot).docs;
+          } else if (snapshot.data is List<QueryDocumentSnapshot>) {
+            docs = snapshot.data as List<QueryDocumentSnapshot>;
+          }
+          
           if (docs.isEmpty)
             return const Center(
               child: Text(

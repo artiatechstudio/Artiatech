@@ -19,7 +19,7 @@ class HorizontalSection extends StatelessWidget {
   final bool isAdmin;
   final VoidCallback? onSearchTap;
   final Future<List<ArticleModel>>? futureItems;
-  final Stream<QuerySnapshot>? streamItems;
+  final dynamic streamItems;
   final FirestoreService _firestore = FirestoreService();
 
   HorizontalSection({
@@ -105,7 +105,22 @@ class HorizontalSection extends StatelessWidget {
           SizedBox(
             height: 230,
             child: streamItems != null 
-              ? StreamBuilder<QuerySnapshot>(stream: streamItems, builder: (context, snapshot) => _buildListFromDocs(context, snapshot))
+              ? StreamBuilder(
+                  stream: streamItems, 
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) return _buildShimmer(context);
+                    if (snapshot.hasError) return const Center(child: Text('خطأ تقني'));
+                    
+                    List<QueryDocumentSnapshot> docs = [];
+                    if (snapshot.data is QuerySnapshot) {
+                      docs = (snapshot.data as QuerySnapshot).docs;
+                    } else if (snapshot.data is List<QueryDocumentSnapshot>) {
+                      docs = snapshot.data as List<QueryDocumentSnapshot>;
+                    }
+
+                    return _buildListFromDocs(context, docs);
+                  }
+                )
               : FutureBuilder<List<ArticleModel>>(future: futureItems, builder: (context, snapshot) => _buildListFromFuture(context, snapshot)),
           ),
       ],
@@ -132,10 +147,7 @@ class HorizontalSection extends StatelessWidget {
     );
   }
 
-  Widget _buildListFromDocs(BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) return _buildShimmer(context);
-    if (snapshot.hasError) return const Center(child: Text('خطأ تقني'));
-    final docs = snapshot.data?.docs ?? [];
+  Widget _buildListFromDocs(BuildContext context, List<QueryDocumentSnapshot> docs) {
     if (docs.isEmpty) return const Center(child: Text('لا توجد عناصر حالياً', style: TextStyle(color: Colors.grey)));
 
     final userProvider = context.watch<UserProvider>();

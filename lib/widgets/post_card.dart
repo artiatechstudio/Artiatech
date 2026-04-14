@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class PostCard extends StatelessWidget {
   final String title;
@@ -141,16 +142,29 @@ class PostCard extends StatelessWidget {
   Widget _buildImage(BuildContext context, String url) {
     if (url.startsWith('data:image')) {
       final base64String = url.split(',').last;
-      return Image.memory(base64.decode(base64String), fit: BoxFit.cover, errorBuilder: (_, __, ___) => const Icon(Icons.error));
+      return Image.memory(
+        base64.decode(base64String), 
+        fit: BoxFit.cover, 
+        errorBuilder: (_, __, ___) => const Icon(Icons.error)
+      );
     } else {
-      return Image.network(
-        url,
+      return CachedNetworkImage(
+        imageUrl: url,
         fit: BoxFit.cover,
-        errorBuilder: (_, __, ___) => Container(color: Theme.of(context).dividerColor.withOpacity(0.1), child: Icon(Icons.broken_image, color: Theme.of(context).disabledColor)),
-        loadingBuilder: (context, child, loadingProgress) {
-          if (loadingProgress == null) return child;
-          return Center(child: CircularProgressIndicator(value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes! : null));
-        },
+        placeholder: (context, url) => Container(
+          color: Theme.of(context).dividerColor.withOpacity(0.05),
+          child: const Center(
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+          ),
+        ),
+        errorWidget: (context, url, error) => Container(
+          color: Theme.of(context).dividerColor.withOpacity(0.1),
+          child: Icon(Icons.broken_image, color: Theme.of(context).disabledColor),
+        ),
       );
     }
   }

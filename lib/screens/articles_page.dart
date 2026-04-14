@@ -19,12 +19,12 @@ class ArticlesPage extends StatelessWidget {
       child: ListView(
         children: [
           HorizontalSection(
-            title: '📝 المقالات الأكثر قراءة',
+            title: '📝 المقالات الأكثر رواجاً',
             isAdmin: userProvider.isAdmin,
-            streamItems: firestore.getPosts('article', isAdmin: userProvider.isAdmin),
+            streamItems: firestore.getTrendingPosts(type: 'article', isAdmin: userProvider.isAdmin),
           ),
           HorizontalSection(
-            title: '🤝 تتابعه', 
+            title: '🤝 تتابعهم', 
             emptyFollowingMsg: userProvider.followingIds.isEmpty,
             streamItems: firestore.getFollowingPosts(userProvider.followingIds),
           ),

@@ -38,9 +38,9 @@ class TechPage extends StatelessWidget {
             ),
           ),
           HorizontalSection(
-            title: '⚙️ الأكثر رواجاً التقنية',
+            title: '⚙️ الأكثر رواجاً في التقنية',
             isAdmin: userProvider.isAdmin,
-            streamItems: firestore.getPosts('tech', isAdmin: userProvider.isAdmin),
+            streamItems: firestore.getTrendingPosts(type: 'tech', isAdmin: userProvider.isAdmin),
           ),
           HorizontalSection(
             title: '🎮 أحدث الألعاب',
@@ -53,7 +53,7 @@ class TechPage extends StatelessWidget {
             streamItems: firestore.getPosts('app_apk', isAdmin: userProvider.isAdmin),
           ),
           HorizontalSection(
-            title: '🤝 تتابعه', 
+            title: '🤝 تتابعهم', 
             emptyFollowingMsg: userProvider.followingIds.isEmpty,
             streamItems: firestore.getFollowingPosts(userProvider.followingIds),
           ),

@@ -26,11 +26,11 @@ class HomePage extends StatelessWidget {
             streamItems: firestore.getPosts('announcement', isAdmin: userProvider.isAdmin),
           ),
 
-          // 1. رائج (Featured)
+          // 1. رائج (Top 5 views)
           HorizontalSection(
-            title: '🔥 رائج الآن',
+            title: '🔥 رائج الآن (الأعلى مشاهدة)',
             isAdmin: userProvider.isAdmin,
-            streamItems: firestore.getFeaturedPosts(isAdmin: userProvider.isAdmin),
+            streamItems: firestore.getTrendingPosts(isAdmin: userProvider.isAdmin),
           ),
 
           // 2. تتابع (Following) - منطق ذكي: لا نطلب البيانات إذا كانت قائمة المتابعة فارغة

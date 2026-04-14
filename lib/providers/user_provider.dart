@@ -71,13 +71,20 @@ class UserProvider with ChangeNotifier {
         _isAdmin = _profileData?['role'] == 'admin';
         _isTrusted = _profileData?['isTrusted'] ?? false;
         _followingIds = _profileData?['following'] ?? [];
-        
+        // ✅ تجهيز البيانات للتخزين: تحويل أي Timestamp إلى String لمنع خطأ الـ JSON
+        Map<String, dynamic> encodableData = Map.from(_profileData!);
+        encodableData.forEach((key, value) {
+          if (value is Timestamp) {
+            encodableData[key] = value.toDate().toIso8601String();
+          }
+        });
+
         // حفظ محلي ذكي مع ربطه بمعرف المستخدم (UID) لضمان الخصوصية
         final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('cached_uid', user.uid); // ✅ حفظ الـ UID لغرض التحقق القادم
+        await prefs.setString('cached_uid', user.uid); 
         await prefs.setBool('is_admin', _isAdmin);
         await prefs.setBool('is_trusted', _isTrusted);
-        await prefs.setString('user_profile_cache', json.encode(_profileData));
+        await prefs.setString('user_profile_cache', json.encode(encodableData));
       }
     } catch (e) {
       debugPrint('Error syncing user context: $e');

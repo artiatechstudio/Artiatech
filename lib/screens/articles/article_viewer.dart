@@ -4,6 +4,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/foundation.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../widgets/horizontal_section.dart';
 import '../../services/firestore_service.dart';
 
@@ -55,7 +57,10 @@ class _ArticleViewerState extends State<ArticleViewer> {
       setState(() => _showBackToTop = _scrollController.offset > 500);
     });
 
-    if (widget.link.isNotEmpty && widget.link.startsWith('http')) {
+    // تحقق من أن المنصة تدعم WebView بشكل مباشر (أندرويد/آي أو إس) لتجنب الانهيار على ويندوز
+    bool isMobile = !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
+
+    if (widget.link.isNotEmpty && widget.link.startsWith('http') && isMobile) {
       _useWebView = true;
       _controller = WebViewController()
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -89,6 +94,10 @@ class _ArticleViewerState extends State<ArticleViewer> {
           ),
         )
         ..loadRequest(Uri.parse(widget.link));
+    } else if (widget.link.isNotEmpty && widget.link.startsWith('http') && !isMobile) {
+      // للمنصات التي لا تدعم الـ WebView مثل ويندوز بنسخته الحالية، يمكن الاستعانة بالمتصفح الخارجي
+      _useWebView = false;
+      // لا نقوم بفتح الرابط هنا فوراً لكي لا نزعج المستخدم، يمكن إضافة زر لاحقاً
     }
   }
 
@@ -304,6 +313,23 @@ class _ArticleViewerState extends State<ArticleViewer> {
                   ),
                 ],
               ),
+              if (widget.link.isNotEmpty && !kIsWeb && !(defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS)) ...[
+                const SizedBox(height: 20),
+                ElevatedButton.icon(
+                  onPressed: () async {
+                    if (await canLaunchUrl(Uri.parse(widget.link))) {
+                      await launchUrl(Uri.parse(widget.link), mode: LaunchMode.externalApplication);
+                    }
+                  },
+                  icon: const Icon(Icons.open_in_browser),
+                  label: const Text('قراءة المقال في المتصفح الخارجي'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent, 
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 50),
+                  ),
+                )
+              ],
               const Divider(height: 50),
               HtmlWidget(widget.content, textStyle: const TextStyle(fontSize: 17, height: 1.8)),
               const SizedBox(height: 50),

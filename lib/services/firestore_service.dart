@@ -1,38 +1,76 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:async/async.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // ✅ لتتبع بصمة المشاهدات محلياً ومنع التكرار
 
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  // 1. استرجاع المنشورات حسب النوع (مع دعم المعاينة للأدمن)
-  Stream<QuerySnapshot> getPosts(String type, {bool isAdmin = false}) {
-    Query query = _db.collection('posts').where('type', isEqualTo: type);
-    if (!isAdmin) query = query.where('status', isEqualTo: 'approved');
-    return query.snapshots();
-  }
-
-  // 2. جلب أحدث المنشورات
-  Stream<QuerySnapshot> getLatestPosts({bool isAdmin = false}) {
-    Query query = _db.collection('posts').orderBy('createdAt', descending: true);
-    if (!isAdmin) query = query.where('status', isEqualTo: 'approved');
-    return query.snapshots();
-  }
-
-  // 3. جلب المنشورات الرائجة
-  Stream<QuerySnapshot> getFeaturedPosts({bool isAdmin = false}) {
-    Query query = _db.collection('posts').where('isFeatured', isEqualTo: true);
-    if (!isAdmin) query = query.where('status', isEqualTo: 'approved');
-    return query.snapshots();
-  }
-
-  // 4. جلب منشورات المبدعين الذين أتابعهم
-  Stream<QuerySnapshot> getFollowingPosts(List<dynamic> followingIds) {
-    if (followingIds.isEmpty) return const Stream.empty();
-    return _db.collection('posts')
-        .where('authorId', whereIn: followingIds.take(10).toList())
-        .where('status', isEqualTo: 'approved')
+  // 1. استرجاع المنشورات حسب النوع (مع حد أقصى للحفاظ على السرعة)
+  Stream<QuerySnapshot> getPosts(String type, {bool isAdmin = false, int limit = 15}) {
+    Query query = _db.collection('posts')
+        .where('type', isEqualTo: type)
         .orderBy('createdAt', descending: true)
-        .snapshots();
+        .limit(limit);
+    if (!isAdmin) query = query.where('status', isEqualTo: 'approved');
+    return query.snapshots();
+  }
+
+  // 2. جلب أحدث المنشورات (بحد أقصى 20 لتقليل الحمل)
+  Stream<QuerySnapshot> getLatestPosts({bool isAdmin = false, int limit = 20}) {
+    Query query = _db.collection('posts').orderBy('createdAt', descending: true).limit(limit);
+    if (!isAdmin) query = query.where('status', isEqualTo: 'approved');
+    return query.snapshots();
+  }
+
+  // 3. جلب المنشورات الرائجة (توب 5 حسب المشاهدات)
+  Stream<QuerySnapshot> getTrendingPosts({String? type, bool isAdmin = false}) {
+    Query query = _db.collection('posts')
+        .orderBy('viewsCount', descending: true)
+        .limit(5);
+    
+    if (type != null) query = query.where('type', isEqualTo: type);
+    if (!isAdmin) query = query.where('status', isEqualTo: 'approved');
+    return query.snapshots();
+  }
+
+  // 4. جلب منشورات المبدعين الذين أتابعهم (تم الحل: تجاوز قيد الـ 10 باطراد)
+  Stream<List<QueryDocumentSnapshot>> getFollowingPosts(List<dynamic> followingIds) async* {
+    if (followingIds.isEmpty) {
+      yield [];
+      return;
+    }
+
+    // تقسيم المعرفات لمجموعات كل مجموعة 10 (قيد فايرستور)
+    List<List<dynamic>> chunks = [];
+    for (var i = 0; i < followingIds.length; i += 10) {
+      chunks.add(followingIds.sublist(i, i + 10 > followingIds.length ? followingIds.length : i + 10));
+    }
+
+    List<Stream<QuerySnapshot>> streams = chunks.map((chunk) {
+      return _db.collection('posts')
+          .where('authorId', whereIn: chunk)
+          .where('status', isEqualTo: 'approved')
+          .orderBy('createdAt', descending: true)
+          .snapshots();
+    }).toList();
+
+    // دمج النتائج يدوياً للحفاظ على الأداء
+    await for (var snapshots in StreamZip(streams)) {
+      List<QueryDocumentSnapshot> allDocs = [];
+      for (var snap in snapshots) {
+        allDocs.addAll(snap.docs);
+      }
+      // ترتيب زمني نهائي بعد الدمج
+      allDocs.sort((a, b) {
+        final dataA = a.data() as Map<String, dynamic>?;
+        final dataB = b.data() as Map<String, dynamic>?;
+        Timestamp? ta = dataA?['createdAt'] as Timestamp?;
+        Timestamp? tb = dataB?['createdAt'] as Timestamp?;
+        if (ta == null || tb == null) return 0;
+        return tb.compareTo(ta);
+      });
+      yield allDocs;
+    }
   }
 
   // 5. جلب منشورات مستخدم معين (للملف الشخصي العام)
@@ -94,19 +132,56 @@ class FirestoreService {
     });
   }
 
-  Stream<QuerySnapshot> getSavedPosts(List<dynamic> postIds) {
-    if (postIds.isEmpty) return const Stream.empty();
-    return _db.collection('posts')
-        .where(FieldPath.documentId, whereIn: postIds.take(10).toList())
-        .snapshots();
+  // 7. المتابعة والحفظ (تم الحل: تجاوز قيد الـ 10 باطراد)
+  Stream<List<QueryDocumentSnapshot>> getSavedPosts(List<dynamic> postIds) async* {
+    if (postIds.isEmpty) {
+      yield [];
+      return;
+    }
+    List<List<dynamic>> chunks = [];
+    for (var i = 0; i < postIds.length; i += 10) {
+      chunks.add(postIds.sublist(i, i + 10 > postIds.length ? postIds.length : i + 10));
+    }
+    
+    List<Stream<QuerySnapshot>> streams = chunks.map((chunk) {
+      return _db.collection('posts')
+          .where(FieldPath.documentId, whereIn: chunk)
+          .snapshots();
+    }).toList();
+
+    await for (var snapshots in StreamZip(streams)) {
+      List<QueryDocumentSnapshot> allDocs = [];
+      for (var snap in snapshots) {
+        allDocs.addAll(snap.docs);
+      }
+      yield allDocs;
+    }
   }
 
-  // جلب قائمة مستخدمين بواسطة معرفاتهم
-  Stream<QuerySnapshot> getUsersByIds(List<dynamic> userIds) {
-    if (userIds.isEmpty) return const Stream.empty();
-    return _db.collection('users')
-        .where(FieldPath.documentId, whereIn: userIds.take(10).toList())
-        .snapshots();
+  // جلب قائمة مستخدمين بواسطة معرفاتهم (تجاوز قيد الـ 10)
+  Stream<List<QueryDocumentSnapshot>> getUsersByIds(List<dynamic> userIds) async* {
+    if (userIds.isEmpty) {
+      yield [];
+      return;
+    }
+    List<List<dynamic>> chunks = [];
+    for (var i = 0; i < userIds.length; i += 10) {
+      chunks.add(userIds.sublist(i, i + 10 > userIds.length ? userIds.length : i + 10));
+    }
+    
+    List<Stream<QuerySnapshot>> streams = chunks.map((chunk) {
+      return _db.collection('users')
+          .where(FieldPath.documentId, whereIn: chunk)
+          .snapshots();
+    }).toList();
+
+    await for (var snapshots in StreamZip(streams)) {
+      List<QueryDocumentSnapshot> allDocs = [];
+      for (var snap in snapshots) {
+        allDocs.addAll(snap.docs);
+      }
+      yield allDocs;
+    }
   }
 
   // 8. الملف الشخصي

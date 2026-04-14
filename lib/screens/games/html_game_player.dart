@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/foundation.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 class HtmlGamePlayer extends StatefulWidget {
@@ -31,20 +33,25 @@ class _HtmlGamePlayerState extends State<HtmlGamePlayer> {
   @override
   void initState() {
     super.initState();
-    _controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..setBackgroundColor(Colors.black)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onProgress: (p) => setState(() {
-            _loadingProgress = p / 100.0;
-            if (p == 100) _isLoading = false;
-          }),
-          onPageStarted: (_) => setState(() => _isLoading = true),
-          onPageFinished: (_) => setState(() => _isLoading = false),
-        ),
-      );
-    _loadGame();
+    bool isMobile = !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
+    if (isMobile) {
+      _controller = WebViewController()
+        ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(Colors.black)
+        ..setNavigationDelegate(
+          NavigationDelegate(
+            onProgress: (p) => setState(() {
+              _loadingProgress = p / 100.0;
+              if (p == 100) _isLoading = false;
+            }),
+            onPageStarted: (_) => setState(() => _isLoading = true),
+            onPageFinished: (_) => setState(() => _isLoading = false),
+          ),
+        );
+      _loadGame();
+    } else {
+      _isLoading = false;
+    }
   }
 
   /// يحدد طريقة التحميل بناءً على نوع المحتوى:
@@ -225,7 +232,24 @@ class _HtmlGamePlayerState extends State<HtmlGamePlayer> {
                 ),
                 const SizedBox(height: 50),
                 ElevatedButton.icon(
-                  onPressed: () => setState(() => _isPlaying = true),
+                  onPressed: () async {
+                    bool isMobile = !kIsWeb && (defaultTargetPlatform == TargetPlatform.android || defaultTargetPlatform == TargetPlatform.iOS);
+                    if (isMobile) {
+                      setState(() => _isPlaying = true);
+                    } else {
+                      // ويندوز لا يدعم WebView ضمن اللعبة بشكل افتراضي، نقوم بفتحها في المتصفح
+                      final src = widget.htmlContent.trim();
+                      if (src.startsWith('http://') || src.startsWith('https://')) {
+                         if (await canLaunchUrl(Uri.parse(src))) {
+                           await launchUrl(Uri.parse(src), mode: LaunchMode.externalApplication);
+                         }
+                      } else {
+                         ScaffoldMessenger.of(context).showSnackBar(
+                           const SnackBar(content: Text('لا يمكن تشغيل هذه اللعبة على نظام الويندوز حالياً.'))
+                         );
+                      }
+                    }
+                  },
                   icon: const Icon(Icons.play_arrow_rounded, size: 30),
                   label: const Text('تشغيل اللعبة الآن', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
                   style: ElevatedButton.styleFrom(

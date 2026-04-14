@@ -26,14 +26,16 @@ class _AppDetailsPageState extends State<AppDetailsPage> {
        return;
     }
 
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('جاري بدء التحميل الآمن من المتصفح... 📥')));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('جاري فتح الرابط في المتصفح الخارجي للتحميل... 📥')));
     
-    // ✅ الطريقة الاحترافية: فتح الرابط مباشرة في المتصفح الخارجي لضمان التثبيت المستقر
+    // ✅ إجبار فتح الرابط في المتصفح الخارجي لضمان استقرار التحميل والتثبيت
     try {
-      await launchUrl(Uri.parse(url), mode: LaunchMode.externalNonBrowserApplication);
+      final uri = Uri.parse(url);
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } catch (e) {
-      // Fallback: إذا فشل التطبيق الخارجي، نفتح المتصفح العادي
-      await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('خطأ في فتح الرابط: $e')));
+      }
     }
   }
 

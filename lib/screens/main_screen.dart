@@ -96,7 +96,7 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             _buildNavItem(0, Icons.home_rounded, 'الرئيسية'),
-            _buildNavItem(1, Icons.palette_rounded, 'إبداع'),
+            _buildNavItem(1, Icons.play_circle_fill_rounded, 'يوتيوب'),
             _buildNavItem(2, Icons.memory_rounded, 'تقنية'),
             _buildNavItem(3, Icons.article_rounded, 'مقالات'),
             _buildNavItem(4, Icons.person_rounded, 'أنت'),

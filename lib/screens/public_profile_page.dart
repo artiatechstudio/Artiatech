@@ -149,11 +149,18 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
             Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             const Divider(),
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
+              child: StreamBuilder(
                 stream: _firestore.getUsersByIds(ids),
                 builder: (context, snap) {
-                  if (!snap.hasData) return const Center(child: CircularProgressIndicator());
-                  final docs = snap.data!.docs;
+                  if (snap.connectionState == ConnectionState.waiting) return const Center(child: CircularProgressIndicator());
+                  
+                  List<QueryDocumentSnapshot> docs = [];
+                  if (snap.data is QuerySnapshot) {
+                    docs = (snap.data as QuerySnapshot).docs;
+                  } else if (snap.data is List<QueryDocumentSnapshot>) {
+                    docs = snap.data as List<QueryDocumentSnapshot>;
+                  }
+                  
                   if (docs.isEmpty) return const Center(child: Text('القائمة فارغة حالياً'));
                   
                   return ListView.builder(

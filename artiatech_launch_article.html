@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إطلاق تطبيق أرتياتك ستوديو الرسمي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0d1117;
+            --text-primary: #e6edf3;
+            --text-secondary: #8b949e;
+            --accent-color: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.4);
+            --card-bg: #161b22;
+            --border-color: #30363d;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-box {
+            display: inline-block;
+            background: linear-gradient(135deg, #1f6feb, #238636);
+            padding: 15px 30px;
+            border-radius: 20px;
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(31, 111, 235, 0.3);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .clarification-box {
+            background-color: rgba(35, 134, 54, 0.1);
+            border: 1px solid #238636;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .clarification-box h3 {
+            color: #3fb950;
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--accent-color);
+            margin-top: 50px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            border-color: var(--accent-color);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin-top: 80px;
+            padding: 50px;
+            background: linear-gradient(to top, var(--card-bg), transparent);
+            border-radius: 30px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .download-btn:hover {
+            background-color: #79c0ff;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(121, 192, 255, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <div class="logo-box">Artiatech Studio</div>
+            <h1>البوابة الرسمية لكل إبداعاتنا في مكان واحد!</h1>
+            <p class="subtitle">تطبيق "أرتياتك ستوديو" يرى النور أخيراً بنسخته الأولى (V1.0) ليضع كافة أعمالنا التقنية والأدبية والفنية بين يديك.</p>
+        </header>
+
+        <div class="clarification-box">
+            <h3>⚠️ تنويه هام عن هوية التطبيق ⚠️</h3>
+            <p>
+                <strong>تطبيق أرتياتك ليس منصة نشر عامة!</strong><br>
+                قد يظن البعض أن التطبيق هو مساحة مفتوحة للجميع لنشر رواياتهم أو أعمالهم (مثل بعض المنصات الشهيرة)، ولكن الحقيقة هي أن هذا التطبيق هو <strong>"المعرض الرسمي والحصري"</strong> لأعمال فريق <em>(Artiatech Studio)</em> فقط. <br><br>
+                لقد بنينا هذه المنصة لتكون بمثابة <strong>محفظة أعمالنا (Portfolio)</strong> التفاعلية؛ حيث نستعرض فيها حصرياً: رواياتنا الأصلية، ألعابنا التي برمجناها، تطبيقاتنا الخدمية، ومقالاتنا التقنية والفنية. هو عالمنا الخاص، وندعوكم بكل حب لتكونوا ضيوفنا وزوارنا الدائمين فيه!
+            </p>
+        </div>
+
+        <section>
+            <h2 class="section-title">ماذا يقدم لك تطبيق أرتياتك؟</h2>
+            <p>لقد جمعنا في هذا التطبيق خلاصة شغفنا وجهدنا البرمجي والأدبي لسنوات، وقسمناه إلى أربعة عوالم رئيسية لتستمتع بها:</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>التطبيقات والأدوات</h3>
+                    <p>قم بتحميل وتجربة كافة تطبيقات الأندرويد الخدمية التي نقوم ببرمجتها حصرياً. نوفر لك روابط تحميل مباشرة وآمنة، مع التحديثات المستمرة فور صدورها من الاستوديو الخاص بنا.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>الألعاب السحابية</h3>
+                    <p>استمتع بلعب الألعاب الخفيفة (HTML5 Games) التي يطورها فريقنا. لا حاجة لتحميل اللعبة على هاتفك؛ يمكنك اللعب مباشرة من داخل التطبيق بشاشة كاملة وتجربة غامرة.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>الروايات الأصلية</h3>
+                    <p>تابع جديد إصداراتنا الروائية والقصصية الحصرية. ستجد هنا أعمالنا الأدبية بفصولها المتجددة، مصممة في قارئ نصوص احترافي يريح العين ويجعلك تعيش داخل القصة.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>المقالات والفنون</h3>
+                    <p>نقوم بنشر مقالات ودروس يومية تخص التكنولوجيا، تطوير الألعاب، ومراجعات الفن الرقمي. كن أول من يقرأ أفكارنا ويشاركنا الإعجاب والتفاعل اللحظي.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">تجربة مستخدم "بريميوم"</h2>
+            <p>لأننا مبرمجون ومطورون، نعرف تماماً أهمية الجودة. يتميز التطبيق بـ:</p>
+            <ul style="color: var(--text-secondary); line-height: 2;">
+                <li><strong>الوضع الليلي (Dark Mode) العميق:</strong> مصمم بعناية فائقة لراحة العين خلال التصفح والقراءة لساعات.</li>
+                <li><strong>بيئة خالية من الأعطال:</strong> بنية تحتية صلبة تضمن لك تصفحاً سريعاً واستقراراً تاماً (Zero Crashes).</li>
+                <li><strong>نظام الإشعارات الذكي:</strong> ستبقى على اطلاع دائم كلما قمنا بإصدار فصل جديد من رواية، أو أطلقنا تحديثاً لتطبيق من تطبيقاتنا.</li>
+            </ul>
+        </section>
+
+        <div class="cta-section">
+            <h2>هل أنت مستعد لدخول عالمنا؟</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 30px;">حمل التطبيق الآن (مباشراً لهواتف الأندرويد) واكتشف ما كنا نعمل عليه طوال هذه الفترة!</p>
+            <a href="#" class="download-btn">📥 تحميل تطبيق Artiatech V1.0</a>
+            <p style="margin-top: 15px; font-size: 0.8rem; color: #8b949e;">* متوافق مع كافة أنظمة أندرويد الحديثة</p>
+        </div>
+
+        <footer>
+            <p>© 2026 جميع الحقوق محفوظة لـ Artiatech Studio.</p>
+        </footer>
+    </div>
+
+</body>
+</html>
